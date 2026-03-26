@@ -119,7 +119,7 @@ export async function GET(request: NextRequest) {
     events: [
       { date: new Date().toISOString(), status: 'Mailed', location: 'Our Facility' },
       { date: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString(), status: 'In Transit', location: 'USPS' },
-      { date: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(), status: 'Out for Delivery', location: bureau || 'Destination' },
+      { date: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(), status: 'Out for Delivery', location: 'Destination' },
     ]
   })
 }
