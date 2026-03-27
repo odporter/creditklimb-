@@ -1,17 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { writeFile, appendFile, mkdir } from 'fs/promises'
-import { existsSync } from 'fs'
-import path from 'path'
+import { supabase } from '@/lib/supabase'
 
 /*
  * CREDITFIX LEAD CAPTURE API
  * 
- * Captures qualified leads and stores them for:
- * - Partner distribution (auto dealers, real estate agents, credit shops)
- * - Internal follow-up
- * - Tradeline referrals
- * 
- * Leads are stored in JSON Lines format for easy export.
+ * Captures qualified leads and stores them in Supabase.
+ * Falls back to in-memory storage if Supabase not configured.
  */
 
 interface Lead {
@@ -20,11 +14,11 @@ interface Lead {
   name: string
   email: string
   phone: string
-  scoreRange: string
+  score_range: string
   goal: string
   timeline: string
-  tradelineInterest: string
-  additionalInfo: string
+  tradeline_interest: string
+  additional_info: string
   source: string
 }
 
@@ -54,6 +48,9 @@ const SCORE_LABELS: Record<string, string> = {
   'excellent': 'Excellent (800+)',
 }
 
+// In-memory fallback for development
+const memoryLeads: Lead[] = []
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
@@ -69,27 +66,30 @@ export async function POST(request: NextRequest) {
       name,
       email,
       phone: phone || '',
-      scoreRange: SCORE_LABELS[scoreRange] || scoreRange || 'Unknown',
+      score_range: SCORE_LABELS[scoreRange] || scoreRange || 'Unknown',
       goal: GOAL_LABELS[goal] || goal || 'Unknown',
       timeline: TIMELINE_LABELS[timeline] || timeline || 'Unknown',
-      tradelineInterest: tradelineInterest || '',
-      additionalInfo: additionalInfo || '',
-      source: 'creditfix-landing',
+      tradeline_interest: tradelineInterest || '',
+      additional_info: additionalInfo || '',
+      source: 'creditklimb-landing',
     }
 
-    // Store lead
-    const leadsDir = path.join(process.cwd(), 'data', 'leads')
-    if (!existsSync(leadsDir)) {
-      await mkdir(leadsDir, { recursive: true })
+    // Try Supabase first
+    if (supabase) {
+      const { error } = await supabase
+        .from('leads')
+        .insert([lead])
+
+      if (error) {
+        console.error('Supabase insert error:', error)
+        // Fall back to memory
+        memoryLeads.push(lead)
+      }
+    } else {
+      // No Supabase, use in-memory
+      memoryLeads.push(lead)
+      console.log('Lead stored in memory (Supabase not configured):', lead.id)
     }
-
-    const leadLine = JSON.stringify(lead) + '\n'
-    await appendFile(path.join(leadsDir, 'leads.jsonl'), leadLine, 'utf8')
-
-    // TODO (production): Send welcome email via SendGrid/Resend
-    // TODO (production): Add to email sequence
-    // TODO (production): Score and route to relevant partners
-    // TODO (production): Send SMS via Twilio if phone provided
 
     return NextResponse.json({
       success: true,
@@ -103,38 +103,47 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET() {
-  // Simple admin view to count leads (in production, add auth)
   try {
-    const leadsFile = path.join(process.cwd(), 'data', 'leads', 'leads.jsonl')
-    
-    if (!existsSync(leadsFile)) {
-      return NextResponse.json({ leads: 0, total: 0 })
+    if (supabase) {
+      const { data, error } = await supabase
+        .from('leads')
+        .select('*')
+        .order('timestamp', { ascending: false })
+        .limit(100)
+
+      if (error) {
+        console.error('Supabase fetch error:', error)
+        return NextResponse.json({ total: 0, leads: [], error: 'Database error' })
+      }
+
+      const leads = data || []
+      const byGoal: Record<string, number> = {}
+      const byScore: Record<string, number> = {}
+      const byTimeline: Record<string, number> = {}
+      let tradelineInterested = 0
+
+      leads.forEach((lead: Lead) => {
+        byGoal[lead.goal] = (byGoal[lead.goal] || 0) + 1
+        byScore[lead.score_range] = (byScore[lead.score_range] || 0) + 1
+        byTimeline[lead.timeline] = (byTimeline[lead.timeline] || 0) + 1
+        if (lead.tradeline_interest === 'yes') tradelineInterested++
+      })
+
+      return NextResponse.json({
+        total: leads.length,
+        byGoal,
+        byScore,
+        byTimeline,
+        tradelineInterested,
+        recent: leads.slice(0, 10),
+      })
     }
 
-    const { readFile } = await import('fs/promises')
-    const content = await readFile(leadsFile, 'utf8')
-    const lines = content.trim().split('\n').filter(Boolean)
-    const leads = lines.map(line => JSON.parse(line))
-
-    const byGoal: Record<string, number> = {}
-    const byScore: Record<string, number> = {}
-    const byTimeline: Record<string, number> = {}
-    let tradelineInterested = 0
-
-    leads.forEach((lead: Lead) => {
-      byGoal[lead.goal] = (byGoal[lead.goal] || 0) + 1
-      byScore[lead.scoreRange] = (byScore[lead.scoreRange] || 0) + 1
-      byTimeline[lead.timeline] = (byTimeline[lead.timeline] || 0) + 1
-      if (lead.tradelineInterest === 'yes') tradelineInterested++
-    })
-
+    // No Supabase, return memory leads
     return NextResponse.json({
-      total: leads.length,
-      byGoal,
-      byScore,
-      byTimeline,
-      tradelineInterested,
-      recent: leads.slice(-10).reverse(),
+      total: memoryLeads.length,
+      recent: memoryLeads.slice(-10).reverse(),
+      note: 'Using in-memory storage. Configure Supabase for persistence.',
     })
   } catch (error: any) {
     return NextResponse.json({ error: 'Failed to fetch leads' }, { status: 500 })
