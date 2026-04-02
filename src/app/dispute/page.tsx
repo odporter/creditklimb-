@@ -333,16 +333,30 @@ export default function DisputePage() {
                     </li>
                   ))}
                 </ul>
-                <Link 
-                  href={`/dispute/${tier.id}`}
+                <button
+                  onClick={() => {
+                    const base = window.location.origin
+                    fetch('/api/stripe/checkout', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        tier: tier.id,
+                        successUrl: `${base}/dispute/${tier.id}/success`,
+                        cancelUrl: `${base}/dispute`,
+                      })
+                    }).then(r => r.json()).then(d => {
+                      if (d.url) window.location.href = d.url
+                      else alert('Payment not configured yet — check back soon!')
+                    }).catch(() => alert('Payment not configured yet!'))
+                  }}
                   className={`w-full text-center py-3 rounded-lg font-medium transition-colors ${
                     tier.popular 
                       ? 'bg-cr-primary text-white hover:bg-cr-primary/90' 
                       : 'bg-cr-surface border border-cr-border hover:border-cr-primary'
                   }`}
                 >
-                  Get Started
-                </Link>
+                  {tier.price === 1 ? 'Get Started — $1' : tier.price === 29 ? 'Get Full System — $29' : 'We Handle It — $49'}
+                </button>
               </div>
             ))}
           </div>
