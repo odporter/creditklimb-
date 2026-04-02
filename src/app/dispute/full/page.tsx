@@ -439,20 +439,39 @@ export default function FullDisputePage() {
               <ArrowLeft size={16} /> Back
             </button>
 
-            <div className="text-center mb-8">
-              <div className="w-16 h-16 bg-cr-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Lock size={24} className="text-cr-primary" />
+            <div className="text-center mb-6">
+              <div className="w-16 h-16 bg-purple-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <FileText size={28} className="text-purple-600" />
               </div>
-              <h2 className="text-2xl font-bold mb-2">Unlock {letterCount} Letters — $29</h2>
-              <p className="text-cr-muted">One-time payment. Lifetime access to your letters.</p>
+              <h2 className="text-2xl font-bold mb-2">Full Repair Pack — {letterCount} Letters</h2>
+              <p className="text-cr-muted">This is your complete credit repair package. Pay once, use forever.</p>
             </div>
 
-            <div className="bg-cr-surface rounded-xl p-4 mb-6">
-              <div className="flex justify-between items-center mb-3">
-                <span className="font-semibold">Your letters</span>
-                <span className="text-cr-muted">{letterCount} dispute letters</span>
+            {/* Full pack benefits */}
+            <div className="bg-purple-50 border border-purple-200 rounded-xl p-4 mb-5">
+              <div className="text-xs font-bold text-purple-600 uppercase tracking-wide mb-3">What's included:</div>
+              <div className="space-y-2">
+                {[
+                  `${letterCount} FCRA-compliant letters — bureaus, sub-bureaus, and furnishers`,
+                  "60-Day Escalation Letter if bureaus don't respond (puts legal pressure on)",
+                  'Pay-for-Delete template to negotiate with collectors off your report',
+                  'Step-by-step mailing guide + certified mail instructions included',
+                  'Unlimited use — dispute multiple items with these templates forever',
+                ].map((b, i) => (
+                  <div key={i} className="flex items-start gap-2 text-sm">
+                    <CheckCircle size={14} className="text-purple-500 flex-shrink-0 mt-0.5" />
+                    <span>{b}</span>
+                  </div>
+                ))}
               </div>
-              <ul className="space-y-1 text-sm text-cr-muted">
+            </div>
+
+            <div className="bg-cr-surface rounded-xl p-4 mb-5">
+              <div className="flex justify-between items-center mb-3">
+                <span className="font-semibold">Your letter pack</span>
+                <span className="text-cr-muted">{letterCount} letters</span>
+              </div>
+              <ul className="space-y-1 text-sm text-cr-muted max-h-32 overflow-y-auto">
                 {selectedBureaus.map(id => {
                   const b = MAJOR_BUREAUS.find(x => x.id === id)
                   return b ? <li key={id}>• {b.name} Bureau Dispute</li> : null
@@ -465,9 +484,9 @@ export default function FullDisputePage() {
                 {includeEscalation && <li>• 60-Day Escalation Letter</li>}
                 {includePayForDelete && <li>• Pay-for-Delete Agreement</li>}
               </ul>
-              <div className="border-t border-cr-border mt-3 pt-3 flex justify-between font-bold text-lg">
+              <div className="border-t border-cr-border mt-3 pt-3 flex justify-between font-bold text-xl">
                 <span>Total</span>
-                <span>$29</span>
+                <span className="text-purple-600">$29</span>
               </div>
             </div>
 
@@ -489,11 +508,11 @@ export default function FullDisputePage() {
                 ) : (
                   <CreditCard size={18} />
                 )}
-                {paymentLoading ? 'Redirecting to payment...' : 'Pay $29 with Card'}
+                {paymentLoading ? 'Redirecting to payment...' : 'Pay $29 — Full Repair Pack'}
               </button>
 
               <p className="text-center text-cr-muted text-xs flex items-center justify-center gap-1">
-                <Lock size={12} /> Secured by Stripe. Your payment info is never stored on our servers.
+                <Lock size={12} /> Secured by Stripe. One-time payment, no subscription.
               </p>
             </div>
 
@@ -501,9 +520,9 @@ export default function FullDisputePage() {
               <p className="text-cr-muted text-sm text-center">
                 Can't afford $29 right now?{' '}
                 <Link href="/dispute/starter" className="text-cr-primary hover:underline">
-                  Start for $1
+                  Start for free
                 </Link>
-                {' '}— 1 bureau, 1 letter.
+                {' '}— 1 bureau, 1 letter, share to unlock.
               </p>
             </div>
           </div>

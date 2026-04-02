@@ -52,6 +52,8 @@ export async function POST(request: NextRequest) {
       timeline,
       tradelineInterest,
       additionalInfo,
+      unlockMethod,
+      tier,
     } = body
 
     if (!name || !email) {
@@ -72,7 +74,9 @@ export async function POST(request: NextRequest) {
       timeline: TIMELINE_LABELS[timeline] || timeline || 'Unknown',
       tradeline_interest: tradelineInterest || '',
       additional_info: additionalInfo?.trim() || '',
-      source: 'creditklimb-landing',
+      source: tier ? `creditklimb-${tier}` : 'creditklimb-landing',
+      unlock_method: unlockMethod || null,
+      tier: tier || null,
     }
 
     // Try Supabase first, fall back to memory
@@ -139,6 +143,7 @@ export async function GET(request: NextRequest) {
       const byScore: Record<string, number> = {}
       const byTimeline: Record<string, number> = {}
       const byStatus: Record<string, number> = {}
+      const byUnlockMethod: Record<string, number> = {}
       let tradelineInterested = 0
       let newCount = 0
 
@@ -147,6 +152,9 @@ export async function GET(request: NextRequest) {
         byScore[lead.score_range] = (byScore[lead.score_range] || 0) + 1
         byTimeline[lead.timeline] = (byTimeline[lead.timeline] || 0) + 1
         byStatus[lead.status || 'new'] = (byStatus[lead.status || 'new'] || 0) + 1
+        if (lead.unlock_method) {
+          byUnlockMethod[lead.unlock_method] = (byUnlockMethod[lead.unlock_method] || 0) + 1
+        }
         if (lead.tradeline_interest === 'yes') tradelineInterested++
         if (lead.status === 'new') newCount++
       })
@@ -164,6 +172,7 @@ export async function GET(request: NextRequest) {
         byScore,
         byTimeline,
         byStatus,
+        byUnlockMethod,
         tradelineInterested,
         highIntentLeads: highIntentCount,
         urgentLeads: urgentCount,

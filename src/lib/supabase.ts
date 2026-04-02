@@ -108,6 +108,8 @@ export interface Lead {
   tradeline_interest: string
   additional_info: string
   source: string
+  unlock_method?: string | null
+  tier?: string | null
   email_sent?: boolean
   follow_up_sent?: boolean
   status?: string
