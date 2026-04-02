@@ -154,6 +154,27 @@ export default function DisputeSuccessPage({ tier }: { tier: string }) {
           </div>
         )}
 
+        {/* Land Freedom System cross-sell */}
+        <div className="cr-card bg-[#0A1A0F] border-green-800/50 mb-8">
+          <div className="flex flex-col md:flex-row items-center gap-4">
+            <div className="flex-1">
+              <div className="text-xs font-bold text-green-400 uppercase tracking-wide mb-1">Now Building →</div>
+              <h3 className="font-bold text-white mb-1">Land Freedom System™</h3>
+              <p className="text-gray-400 text-sm">
+                Own your own acre. 120 plots available. $7,500 per acre. Self-sustaining community. No mortgage, no landlord.
+              </p>
+            </div>
+            <a
+              href="https://land-freedom-system.vercel.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-5 py-2.5 bg-green-600 hover:bg-green-500 text-white font-bold rounded-lg transition-colors whitespace-nowrap flex items-center gap-2 flex-shrink-0"
+            >
+              See Land <ArrowRight size={14} />
+            </a>
+          </div>
+        </div>
+
         {/* Referrals */}
         <div className="cr-card bg-yellow-50/10 border border-yellow-500/30">
           <h3 className="font-bold text-yellow-500 mb-2">Earn by sharing</h3>

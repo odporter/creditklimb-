@@ -1,0 +1,339 @@
+---
+title: "Free Credit Self-Assessment | CreditKlimb"
+description: "Find out exactly where your credit stands. Take our 2-minute assessment and get a personalized credit health report — free."
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Free Credit Self-Assessment | CreditKlimb</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .gradient-bg { background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%); }
+    .score-ring { width: 140px; height: 140px; }
+    .score-ring circle { fill: none; stroke-width: 10; }
+    .score-ring .bg { stroke: #1e293b; }
+    .score-ring .fg { stroke-linecap: round; transform: rotate(-90deg); transform-origin: center; transition: stroke-dashoffset 1s ease; }
+  </style>
+</head>
+<body class="gradient-bg min-h-screen text-white">
+
+  <!-- Header -->
+  <header class="border-b border-gray-800">
+    <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+      <a href="https://creditklimb.com" class="text-xl font-black text-orange-400">CreditKlimb</a>
+      <a href="https://creditklimb.com" class="text-gray-400 hover:text-white text-sm">← Back to site</a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="py-16 px-4 text-center">
+    <div class="max-w-2xl mx-auto">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-orange-500/10 border border-orange-500/20 rounded-full text-orange-400 text-xs font-bold uppercase tracking-widest mb-6">
+        Free Tool — No Credit Pull
+      </div>
+      <h1 class="text-4xl md:text-5xl font-black mb-4">
+        Find Out Where<br /><span class="text-orange-400">Your Credit Really Stands</span>
+      </h1>
+      <p class="text-gray-400 text-lg mb-8">
+        2-minute self-assessment. No Social Security number. No hard inquiry. Just honest answers about your credit habits — and a personalized report of where you stand.
+      </p>
+    </div>
+  </section>
+
+  <!-- Assessment Form -->
+  <section class="pb-20 px-4">
+    <div class="max-w-xl mx-auto">
+
+      <!-- Progress -->
+      <div id="progress-bar" class="mb-8">
+        <div class="flex justify-between text-xs text-gray-500 mb-2">
+          <span>Question <span id="q-num">1</span> of 7</span>
+          <span id="pct">14%</span>
+        </div>
+        <div class="h-2 bg-gray-800 rounded-full">
+          <div id="bar" class="h-full bg-orange-500 rounded-full transition-all duration-500" style="width:14%"></div>
+        </div>
+      </div>
+
+      <!-- Card -->
+      <div id="quiz-card" class="bg-gray-900/80 border border-gray-700 rounded-2xl p-8">
+
+        <!-- Email Gate -->
+        <div id="email-gate">
+          <h2 class="text-2xl font-bold mb-2">Before We Start</h2>
+          <p class="text-gray-400 mb-6">We'll send your personalized credit report to this email. No spam. No credit pull.</p>
+          <div class="space-y-3">
+            <input type="text" id="user-name" placeholder="Your first name" class="w-full bg-gray-800 border border-gray-600 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-orange-500" />
+            <input type="email" id="user-email" placeholder="Your email address" class="w-full bg-gray-800 border border-gray-600 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-orange-500" />
+            <button onclick="startQuiz()" class="w-full py-4 bg-orange-600 hover:bg-orange-500 text-white font-bold rounded-xl transition text-lg">
+              Start My Free Assessment →
+            </button>
+            <p class="text-gray-600 text-xs text-center">No credit card. No SSN. No hard inquiry.</p>
+          </div>
+        </div>
+
+        <!-- Questions -->
+        <div id="questions" class="hidden">
+          <h2 id="q-text" class="text-xl font-bold mb-6"></h2>
+          <div id="q-options" class="space-y-3"></div>
+        </div>
+
+        <!-- Results -->
+        <div id="results" class="hidden text-center">
+          <div class="mb-6">
+            <div class="score-ring mx-auto">
+              <svg viewBox="0 0 140 140">
+                <circle class="bg" cx="70" cy="70" r="60" />
+                <circle id="score-circle" class="fg" cx="70" cy="70" r="60"
+                  stroke="url(#grad)"
+                  stroke-dasharray="377" stroke-dashoffset="377" />
+                <defs>
+                  <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#f97316" />
+                    <stop offset="100%" stop-color="#a855f7" />
+                  </linearGradient>
+                </defs>
+              </svg>
+              <div class="absolute inset-0 flex flex-col items-center justify-center">
+                <div id="score-num" class="text-4xl font-black">--</div>
+                <div class="text-xs text-gray-400 font-semibold">out of 850</div>
+              </div>
+            </div>
+          </div>
+
+          <h2 id="score-label" class="text-2xl font-black mb-2"></h2>
+          <p id="score-desc" class="text-gray-400 mb-8 max-w-sm mx-auto"></p>
+
+          <div class="text-left bg-gray-800/50 rounded-xl p-5 mb-6">
+            <h3 class="font-bold mb-3 text-sm uppercase tracking-wider text-gray-400">Your Top 3 Action Items:</h3>
+            <ul id="action-items" class="space-y-2 text-sm text-gray-300"></ul>
+          </div>
+
+          <div class="bg-orange-600/20 border border-orange-500/30 rounded-xl p-5 mb-6">
+            <p class="text-orange-300 font-semibold text-sm mb-1">Ready to improve your score?</p>
+            <p class="text-gray-400 text-xs mb-4">Get a personalized dispute letter and action plan — starting at $49.</p>
+            <a href="https://creditklimb.com/submit" class="block w-full py-3 bg-orange-600 hover:bg-orange-500 text-white font-bold rounded-xl transition text-center text-sm">
+              Fix My Credit — Start Now →
+            </a>
+          </div>
+
+          <p class="text-gray-600 text-xs">Your report was sent to <span id="result-email" class="text-gray-400"></span></p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Social Proof -->
+  <section class="py-12 px-4 border-t border-gray-800">
+    <div class="max-w-4xl mx-auto text-center">
+      <p class="text-gray-500 text-sm mb-6">Trusted by people working to understand and improve their credit</p>
+      <div class="flex flex-wrap justify-center gap-6 text-gray-600 text-xs">
+        <span>✓ No SSN required</span>
+        <span>✓ No credit pull</span>
+        <span>✓ FCRA compliant</span>
+        <span>✓ Results in 2 minutes</span>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const questions = [
+      {
+        q: "How would you describe your current credit situation?",
+        options: [
+          { text: "I don't know my credit score", score: 0 },
+          { text: "I've checked it before but haven't looked recently", score: 1 },
+          { text: "I know my score and actively monitor it", score: 3 },
+        ]
+      },
+      {
+        q: "How many credit cards do you currently have?",
+        options: [
+          { text: "None", score: 1 },
+          { text: "1–2 cards", score: 3 },
+          { text: "3–5 cards", score: 2 },
+          { text: "More than 5 cards", score: 1 },
+        ]
+      },
+      {
+        q: "Have you ever missed a credit card or loan payment?",
+        options: [
+          { text: "No, always paid on time", score: 3 },
+          { text: "Once or twice, years ago", score: 2 },
+          { text: "Yes, within the last 2 years", score: 0 },
+          { text: "I have late payments right now", score: 0 },
+        ]
+      },
+      {
+        q: "How much of your available credit are you using?",
+        options: [
+          { text: "I don't have any credit cards", score: 1 },
+          { text: "Less than 30%", score: 3 },
+          { text: "30–70%", score: 2 },
+          { text: "More than 70%", score: 0 },
+        ]
+      },
+      {
+        q: "How long have you had your oldest credit account?",
+        options: [
+          { text: "Less than a year", score: 0 },
+          { text: "1–3 years", score: 1 },
+          { text: "3–7 years", score: 2 },
+          { text: "More than 7 years", score: 3 },
+        ]
+      },
+      {
+        q: "Have you checked your credit report in the last 12 months?",
+        options: [
+          { text: "Yes — I review it regularly", score: 3 },
+          { text: "I've checked it once in the last year", score: 2 },
+          { text: "Not in the last year", score: 0 },
+          { text: "Never", score: 0 },
+        ]
+      },
+      {
+        q: "What's your main goal right now?",
+        options: [
+          { text: "Buy a house or car in the next 1–2 years", score: 0 },
+          { text: "Lower my interest rates", score: 1 },
+          { text: "Remove errors from my report", score: 2 },
+          { text: "Just understand where I stand", score: 3 },
+        ]
+      },
+    ];
+
+    let email = '', name = '', currentQ = 0, totalScore = 0;
+    const maxScore = questions.length * 3;
+
+    function startQuiz() {
+      const nameEl = document.getElementById('user-name');
+      const emailEl = document.getElementById('user-email');
+      name = nameEl.value.trim();
+      email = emailEl.value.trim();
+      if (!name || !email.includes('@')) { alert('Please enter a valid name and email.'); return; }
+      document.getElementById('email-gate').classList.add('hidden');
+      document.getElementById('questions').classList.remove('hidden');
+      showQ();
+    }
+
+    function showQ() {
+      const q = questions[currentQ];
+      document.getElementById('q-text').textContent = q.q;
+      document.getElementById('q-num').textContent = currentQ + 1;
+      const pct = Math.round(((currentQ + 1) / questions.length) * 100);
+      document.getElementById('pct').textContent = pct + '%';
+      document.getElementById('bar').style.width = pct + '%';
+      document.getElementById('q-options').innerHTML = q.options.map((o, i) =>
+        `<button onclick="select(${o.score})" class="w-full text-left px-5 py-4 bg-gray-800 hover:bg-gray-700 border border-gray-600 hover:border-orange-500 rounded-xl transition text-sm">
+          ${o.text}
+        </button>`
+      ).join('');
+    }
+
+    function select(score) {
+      totalScore += score;
+      currentQ++;
+      if (currentQ < questions.length) {
+        showQ();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      document.getElementById('questions').classList.add('hidden');
+      document.getElementById('progress-bar').classList.add('hidden');
+      document.getElementById('results').classList.remove('hidden');
+      document.getElementById('result-email').textContent = email;
+
+      const scaledScore = Math.round((totalScore / maxScore) * 850);
+      const pct = totalScore / maxScore;
+
+      // Animate score
+      const circle = document.getElementById('score-circle');
+      const offset = 377 - (377 * scaledScore / 850);
+      circle.style.strokeDashoffset = offset;
+
+      let label, desc, actions, color, needs Urgency = false;
+      if (pct >= 0.8) {
+        label = "Strong Credit";
+        desc = "Your credit habits are solid. Focus on maintaining and optimizing — you have a strong foundation to build on.";
+        actions = ["Keep monitoring your credit report annually", "Maintain low credit utilization", "Time your credit applications strategically"];
+        color = "text-green-400";
+      } else if (pct >= 0.6) {
+        label = "Building Credit";
+        desc = "You're on the right track. A few targeted moves could significantly boost your score in the next 6–12 months.";
+        actions = ["Check your report for errors you can dispute", "Pay down high-balance cards", "Become an authorized user on a stronger account"];
+        color = "text-yellow-400";
+        needsUrgency = true;
+      } else if (pct >= 0.4) {
+        label = "Needs Work";
+        desc = "There are clear opportunities to improve your score. Errors and late payments are likely dragging you down more than you realize.";
+        actions = ["Pull your full credit report and look for errors", "Dispute any late payments that are past the statute of limitations", "Consider a secured card to rebuild credit history"];
+        color = "text-orange-400";
+        needsUrgency = true;
+      } else {
+        label = "Needs Attention";
+        desc = "Your credit situation requires focused action. But you're not alone — and there are proven paths to improvement.";
+        actions = ["Get your full credit reports from all 3 bureaus", "Dispute every error you can find", "Focus on paying down revolving debt first", "Consider a credit repair specialist to speed the process"];
+        color = "text-red-400";
+        needsUrgency = true;
+      }
+
+      // Urgency offer for mid/low scores
+      let urgencyHtml = '';
+      if (needsUrgency) {
+        // Random countdown: 47-119 minutes remaining today
+        const mins = Math.floor(Math.random() * 73) + 47;
+        urgencyHtml = `
+          <div class="bg-red-900/40 border border-red-500/40 rounded-xl p-4 mb-6 text-center">
+            <div class="text-red-400 font-bold text-xs uppercase tracking-widest mb-1">Limited Action Window</div>
+            <div class="text-white font-black text-xl mb-1">Credit bureaus process disputes <span class="text-red-400">daily</span></div>
+            <div class="text-gray-400 text-xs">This offer expires in <span id="urgency-mins" class="text-white font-bold">${mins}</span> minutes — or when this page closes</div>
+          </div>`;
+      }
+
+      document.getElementById('score-num').textContent = scaledScore;
+      document.getElementById('score-label').textContent = label;
+      document.getElementById('score-label').className = `text-2xl font-black mb-2 ${color}`;
+      document.getElementById('score-desc').textContent = desc;
+      document.getElementById('action-items').innerHTML = actions.map(a =>
+        `<li class="flex items-start gap-2"><span class="text-orange-400 mt-0.5">→</span>${a}</li>`
+      ).join('');
+
+      // Inject urgency banner after action items
+      if (urgencyHtml) {
+        document.getElementById('action-items').parentElement.insertAdjacentHTML('afterend', urgencyHtml);
+        // Countdown timer
+        let remaining = parseInt(document.getElementById('urgency-mins').textContent) * 60;
+        const timer = setInterval(() => {
+          remaining--;
+          if (remaining <= 0) { clearInterval(timer); return; }
+          const m = Math.floor(remaining / 60), s = remaining % 60;
+          const el = document.getElementById('urgency-mins');
+          if (el) el.textContent = m + ':' + String(s).padStart(2, '0');
+        }, 1000);
+      }
+
+      // Send to CreditKlimb API
+      fetch('https://creditklimb.com/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name, email,
+          scoreRange: label.toLowerCase(),
+          goal: 'self-assessment',
+          score: scaledScore,
+          source: 'credit-self-assessment',
+        })
+      }).catch(() => {});
+    }
+  </script>
+</body>
+</html>

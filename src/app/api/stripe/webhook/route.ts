@@ -1,15 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2026-03-25.dahlia',
-})
+// Lazy initialization to avoid build-time env var requirement
+let _stripe: Stripe | null = null
+function getStripe(): Stripe {
+  if (!_stripe) {
+    _stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_placeholder', {
+      apiVersion: '2026-03-25.dahlia',
+    })
+  }
+  return _stripe
+}
 
-const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!
+const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || 'whsec_placeholder'
 
 export async function POST(request: NextRequest) {
+  const stripe = getStripe()
   const body = await request.text()
-  const signature = request.headers.get('stripe-signature')!
+  const signature = request.headers.get('stripe-signature') || ''
 
   let event: Stripe.Event
 
