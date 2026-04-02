@@ -1,135 +1,123 @@
-# CreditKlimb™ — Setup Guide
+# CreditKlimb — Vercel Deploy & Setup
 
-This file documents third-party integrations that need manual activation.
+## Step 1: Push HeirCraft to GitHub (fix missing commits)
 
----
-
-## 1. Tawk.to Live Chat
-
-**Status: Placeholder code added — needs activation**
-
-Tawk.to provides a free live chat widget for customer support.
-
-### Steps to Activate:
-
-1. **Create a free Tawk.to account**
-   - Go to [tawk.to](https://www.tawk.to) and sign up (free forever tier)
-   - Verify your email address
-
-2. **Get your Property ID**
-   - Log in to your Tawk.to dashboard at [dashboard.tawk.to](https://dashboard.tawk.to)
-   - Go to **Administration → Widgets**
-   - Copy your **Property ID** (looks like: `abc1234d-5678-90ef-1234-56789abcdef`)
-
-3. **Update the layout**
-   - Open `src/app/layout.tsx`
-   - Find `YOUR_PROPERTY_ID` and replace it with your actual Property ID:
-   ```ts
-   s1.src='https://embed.tawk.to/YOUR_ACTUAL_PROPERTY_ID/1';
-   ```
-   - Example: `s1.src='https://embed.tawk.to/abc1234d567890ef1234567890abcdef/1';`
-
-4. **Customize the widget** (optional)
-   - In Tawk.to dashboard: **Administration → Widgets → Customization**
-   - Set your site name: `CreditKlimb™`
-   - Set greeting messages to match your brand
-   - Set offline message to capture leads when you're not online
-
-### What it looks like:
-The widget will appear as a floating chat button in the bottom-right corner of every page. Visitors can chat with you in real-time or leave a message when you're offline.
-
----
-
-## 2. Stripe Payments
-
-**Status: Code wired up — needs API keys**
-
-### Steps to Activate:
-
-1. **Get Stripe keys**
-   - Sign up at [stripe.com](https://stripe.com)
-   - Go to **Developers → API keys**
-   - Copy your **Secret key** (`sk_live_...` or `sk_test_...`)
-
-2. **Update `.env.local`**
-   ```
-   STRIPE_SECRET_KEY=sk_test_your_actual_key_here
-   ```
-
-3. **Create Products in Stripe Dashboard** (optional — or use dynamic pricing)
-   - Go to **Products → Add product**
-   - Create: "Full Repair — $29" and "We Handle It — $49"
-   - Copy the **Price IDs** and add to `.env.local`:
-   ```
-   STRIPE_PREMIUM_PRICE_ID=price_xxxxxxxxxxxx
-   STRIPE_MAIL_SERVICE_PRICE_ID=price_yyyyyyyyyyyy
-   ```
-
-4. **Set up Webhooks** (for production)
-   - Go to **Developers → Webhooks → Add endpoint**
-   - Endpoint URL: `https://yourdomain.com/api/webhooks/stripe`
-   - Select events: `checkout.session.completed`, `payment_intent.succeeded`
-   - Copy the **Webhook signing secret** to:
-   ```
-   STRIPE_WEBHOOK_SECRET=whsec_xxxxxxxxxxxx
-   ```
-
----
-
-## 3. Resend (Transactional Email)
-
-**Status: Code wired up — needs API key**
-
-### Steps to Activate:
-
-1. **Get a Resend API key**
-   - Sign up at [resend.com](https://resend.com) (free tier: 3,000 emails/month)
-   - Go to **API Keys → Create API key**
-   - Copy the key (starts with `re_`)
-
-2. **Update `.env.local`**
-   ```
-   RESEND_API_KEY=re_your_actual_key_here
-   EMAIL_FROM=noreply@creditklimb.com
-   ADMIN_EMAIL=support@creditklimb.com
-   ```
-
-3. **Verify your domain** (optional but recommended)
-   - In Resend dashboard: **Domains → Add domain**
-   - Add DNS records to verify ownership
-   - This lets you send from your own domain (e.g., `support@creditklimb.com`)
-
----
-
-## 4. Supabase (Database)
-
-**Status: Fully configured if keys are set**
-
-See `.env.local.example` for setup instructions. The app runs in memory-only mode without Supabase (data resets on server restart).
-
----
-
-## Environment Variables Quick Reference
-
-Copy `.env.local.example` to `.env.local` and fill in:
+The HeirCraft agent made changes but couldn't push. Run this ONCE from your terminal:
 
 ```bash
-# Supabase (required for persistence)
-NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
-SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
-
-# Resend (email notifications)
-RESEND_API_KEY=re_your_resend_key
-EMAIL_FROM=noreply@yourdomain.com
-ADMIN_EMAIL=admin@yourdomain.com
-
-# Stripe (payments)
-STRIPE_SECRET_KEY=sk_test_your_key
-STRIPE_WEBHOOK_SECRET=whsec_your_secret
-STRIPE_PREMIUM_PRICE_ID=price_xxx
-STRIPE_MAIL_SERVICE_PRICE_ID=price_yyy
-
-# Tawk.to (live chat)
-# Just update YOUR_PROPERTY_ID in src/app/layout.tsx
+cd ~/Documents/toyto
+gh auth login
+git push origin main
 ```
+
+## Step 2: Deploy CreditKlimb to Vercel
+
+CreditKlimb already has a live project on Vercel. After updating env vars, you'll need to redeploy:
+
+```bash
+cd ~/Documents/CreditRepair
+vercel env add NEXT_PUBLIC_SUPABASE_URL
+# Paste: https://tsdjmiqczgxnkpvirkya.supabase.co
+vercel env add NEXT_PUBLIC_SUPABASE_ANON_KEY
+# Paste: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRzZGptaXFjemd4bmtwdmlya3lhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwMjk2MzYsImV4cCI6MjA4OTYwNTYzNn0._KElR6DYtARvImBdlutAMzzpSg3bOalpvFm094WaOKA
+vercel env add SUPABASE_SERVICE_ROLE_KEY
+# Paste: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRzZGptaXFjemd4bmtwdmlya3lhIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NDAyOTYzNiwiZXhwIjoyMDg5NjA1NjM2fQ.7PAvqsXolPTLionRlvH0caLz20KUjQGE5-e8yHzZacc
+vercel env add STRIPE_SECRET_KEY
+# Get from: https://dashboard.stripe.com/apikeys (use LIVE keys)
+vercel env add STRIPE_WEBHOOK_SECRET
+# Get from: https://dashboard.stripe.com/webhooks (after creating endpoint)
+vercel env add NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+# From same Stripe API keys page
+vercel env add STRIPE_PREMIUM_PRICE_ID
+# Price ID for $29 plan: price_1THmglRz80LUYyCUz6WzSnXJ
+vercel env add STRIPE_MAIL_SERVICE_PRICE_ID
+# Price ID for $49 plan: price_1THmgmRz80LUYyCUg2uHapN1
+vercel deploy --prod
+```
+
+## Step 3: Create Stripe Webhook (for payment confirmations)
+
+```bash
+# 1. Go to https://dashboard.stripe.com/webhooks
+# 2. Click "Add endpoint"
+# 3. URL: https://creditklimb.com/api/stripe/webhook
+# 4. Events: checkout.session.completed, payment_intent.succeeded
+# 5. Copy the webhook signing secret → add to Vercel as STRIPE_WEBHOOK_SECRET
+```
+
+## Step 4: Set up Resend for email notifications
+
+1. Go to https://resend.com and create a free account
+2. Add a domain (e.g. creditklimb.com) or use their test mode with your email
+3. Get API key from https://resend.com/api-keys
+4. Add to Vercel:
+```bash
+vercel env add RESEND_API_KEY
+# Paste your key from Resend
+```
+
+## Step 5: Create Supabase tables (if using Supabase for lead storage)
+
+Go to https://supabase.com → your project → SQL Editor → run this:
+
+```sql
+-- Leads table
+CREATE TABLE IF NOT EXISTS leads (
+  id TEXT PRIMARY KEY DEFAULT gen_random_uuid()::text,
+  timestamp TIMESTAMPTZ DEFAULT NOW(),
+  name TEXT NOT NULL,
+  email TEXT NOT NULL,
+  phone TEXT DEFAULT '',
+  score_range TEXT DEFAULT 'Unknown',
+  goal TEXT DEFAULT 'Unknown',
+  timeline TEXT DEFAULT 'Unknown',
+  tradeline_interest TEXT DEFAULT '',
+  additional_info TEXT DEFAULT '',
+  source TEXT DEFAULT 'creditklimb',
+  email_sent BOOLEAN DEFAULT FALSE,
+  follow_up_sent BOOLEAN DEFAULT FALSE,
+  status TEXT DEFAULT 'new'
+);
+
+-- Contacts table
+CREATE TABLE IF NOT EXISTS contacts (
+  id TEXT PRIMARY KEY DEFAULT gen_random_uuid()::text,
+  timestamp TIMESTAMPTZ DEFAULT NOW(),
+  name TEXT NOT NULL,
+  email TEXT NOT NULL,
+  subject TEXT DEFAULT 'general',
+  message TEXT NOT NULL,
+  status TEXT DEFAULT 'new'
+);
+
+-- Enable RLS
+ALTER TABLE leads ENABLE ROW LEVEL SECURITY;
+ALTER TABLE contacts ENABLE ROW LEVEL SECURITY;
+
+-- Public can insert (from the app)
+CREATE POLICY "anyone can insert leads" ON leads FOR INSERT WITH CHECK (true);
+CREATE POLICY "anyone can insert contacts" ON contacts FOR INSERT WITH CHECK (true);
+CREATE POLICY "anyone can read leads" ON leads FOR SELECT USING (true);
+CREATE POLICY "anyone can read contacts" ON contacts FOR SELECT USING (true);
+```
+
+## Step 6: Set up Tawk.to live chat
+
+1. Create free account at https://tawk.to
+2. Create a property for CreditKlimb
+3. Get your Property ID (looks like `xxxxxxxxxxxx/xxxxxxxx`)
+4. Edit `src/app/layout.tsx` and replace `YOUR_PROPERTY_ID` with your actual ID
+5. Commit and push — Vercel auto-deploys
+
+## Stripe Products Created
+
+| Product | Price ID | Amount |
+|---------|----------|--------|
+| CreditKlimb Full Repair | `price_1THmglRz80LUYyCUz6WzSnXJ` | $29 |
+| We Handle It (mail) | `price_1THmgmRz80LUYyCUg2uHapN1` | $49 |
+
+## Revenue Model
+
+- **$29 plan** — Full credit repair with automated dispute letters
+- **$49 plan** — We Handle It — we print, sign, and mail the letters
+- **Upsell** — Tradeline interest → high-ticket ($200-500/month) referrals to credit repair partners
