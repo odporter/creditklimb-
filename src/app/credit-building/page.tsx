@@ -1,3 +1,5 @@
+'use client'
+
 import { Nav } from '@/components/Nav'
 import Link from 'next/link'
 import { TrendingUp, CheckCircle, ExternalLink, CreditCard, Home, Phone, BookOpen, Users, ArrowRight, Star } from 'lucide-react'
@@ -77,7 +79,15 @@ const TRADELINES = [
 ]
 
 export default function CreditBuildingToolsPage() {
-  return (
+  const ARR_0 = [
+              { tip: 'Keep utilization below 30%', detail: 'If your limit is $1,000, never charge more than $300. Under 10% is even better.' },
+              { tip: 'Never miss a payment', detail: 'Set up autopay for at least the minimum. One late payment can drop your score 60-100 points.' },
+              { tip: 'Don\'t close old cards', detail: 'Closing a card reduces your available credit AND your average account age. Keep them open.' },
+              { tip: 'Be patient', detail: 'Credit building takes 3-6 months to see changes, 12-18 months for significant improvement. Don\'t check your score every day.' },
+              { tip: 'Multiple bureau checking is free', detail: 'Check AnnualCreditReport.com for free reports from all three bureaus once per year.' },
+            ];
+
+return (
     <div className="min-h-screen bg-cr-bg">
       <Nav />
       
@@ -234,13 +244,7 @@ export default function CreditBuildingToolsPage() {
         <div className="cr-container max-w-3xl">
           <h2 className="text-2xl font-bold text-center mb-8">The Rules That Actually Work</h2>
           <div className="space-y-4">
-            {[
-              { tip: 'Keep utilization below 30%', detail: 'If your limit is $1,000, never charge more than $300. Under 10% is even better.' },
-              { tip: 'Never miss a payment', detail: 'Set up autopay for at least the minimum. One late payment can drop your score 60-100 points.' },
-              { tip: 'Don\'t close old cards', detail: 'Closing a card reduces your available credit AND your average account age. Keep them open.' },
-              { tip: 'Be patient', detail: 'Credit building takes 3-6 months to see changes, 12-18 months for significant improvement. Don\'t check your score every day.' },
-              { tip: 'Multiple bureau checking is free', detail: 'Check AnnualCreditReport.com for free reports from all three bureaus once per year.' },
-            ].map((item, i) => (
+            {ARR_0.map((item, i) => (
               <div key={i} className="flex gap-4 p-4 bg-cr-bg rounded-lg border border-cr-border">
                 <CheckCircle className="text-green-500 flex-shrink-0 mt-0.5" size={20} />
                 <div>

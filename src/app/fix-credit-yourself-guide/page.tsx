@@ -1,5 +1,7 @@
+'use client'
+
 import { Nav } from '@/components/Nav'
-import { ArrowRight } from '@/components/Icons'
+import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 const T = ({ children, title, desc }: { children: React.ReactNode; title: string; desc: string }) => (
   <div className="min-h-screen bg-cr-bg"><Nav /><section className="py-16 bg-gradient-to-r from-cr-primary to-blue-700 text-white"><div className="cr-container text-center"><h1 className="text-4xl md:text-5xl font-bold mb-4">{title}</h1><p className="text-xl opacity-90 max-w-2xl mx-auto">{desc}</p></div></section><section className="py-16"><div className="cr-container max-w-3xl">{children}</div></section></div>

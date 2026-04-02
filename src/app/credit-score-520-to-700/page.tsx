@@ -1,9 +1,17 @@
+'use client'
+
 import { Nav } from '@/components/Nav'
-import { ArrowRight, CheckCircle } from '@/components/Icons'
+import { ArrowRight, CheckCircle } from 'lucide-react'
 import Link from 'next/link'
 
 export default function Score520to700Page() {
-  return (
+  const ARR_0 = ['Dispute all errors on your credit report', 'Remove collections that aren\'t yours', 'Challenge accounts that show late payments you didn\'t make', 'Remove duplicates or accounts that don\'t belong to you'];
+
+const ARR_1 = ['Secured credit card — put $200-500 deposit, use 10% or less', 'Become an authorized user on someone else\'s old account', 'Get a credit-builder loan from a local credit union', 'Never use more than 30% of your available credit'];
+
+const ARR_2 = ['Keep old accounts open — your credit history length matters', 'Never close your oldest card', 'Monitor your report monthly', 'Dispute remaining negatives using escalation letters'];
+
+return (
     <div className="min-h-screen bg-cr-bg">
       <Nav />
       <section className="py-16 bg-gradient-to-r from-cr-primary to-blue-700 text-white">
@@ -20,7 +28,7 @@ export default function Score520to700Page() {
             <h2 className="text-2xl font-bold mb-4">Month 1-3: Remove the dead weight</h2>
             <p className="text-cr-muted mb-4">Start here — removing errors is free and doesn't require financial discipline.</p>
             <ul className="space-y-2 mb-4">
-              {['Dispute all errors on your credit report', 'Remove collections that aren\'t yours', 'Challenge accounts that show late payments you didn\'t make', 'Remove duplicates or accounts that don\'t belong to you'].map((item, i) => (
+              {ARR_0.map((item, i) => (
                 <li key={i} className="flex items-start gap-2 text-sm"><CheckCircle size={16} className="text-green-500 flex-shrink-0 mt-0.5" /><span className="text-cr-muted">{item}</span></li>
               ))}
             </ul>
@@ -29,7 +37,7 @@ export default function Score520to700Page() {
           <div className="cr-card mb-8">
             <h2 className="text-2xl font-bold mb-4">Month 4-6: Build positive credit</h2>
             <ul className="space-y-2 mb-4">
-              {['Secured credit card — put $200-500 deposit, use 10% or less', 'Become an authorized user on someone else\'s old account', 'Get a credit-builder loan from a local credit union', 'Never use more than 30% of your available credit'].map((item, i) => (
+              {ARR_1.map((item, i) => (
                 <li key={i} className="flex items-start gap-2 text-sm"><CheckCircle size={16} className="text-green-500 flex-shrink-0 mt-0.5" /><span className="text-cr-muted">{item}</span></li>
               ))}
             </ul>
@@ -38,7 +46,7 @@ export default function Score520to700Page() {
           <div className="cr-card mb-8">
             <h2 className="text-2xl font-bold mb-4">Month 7-12: Optimize and protect</h2>
             <ul className="space-y-2">
-              {['Keep old accounts open — your credit history length matters', 'Never close your oldest card', 'Monitor your report monthly', 'Dispute remaining negatives using escalation letters'].map((item, i) => (
+              {ARR_2.map((item, i) => (
                 <li key={i} className="flex items-start gap-2 text-sm"><CheckCircle size={16} className="text-green-500 flex-shrink-0 mt-0.5" /><span className="text-cr-muted">{item}</span></li>
               ))}
             </ul>

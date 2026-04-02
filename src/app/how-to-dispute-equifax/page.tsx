@@ -1,16 +1,20 @@
+'use client'
+
 import { Nav } from '@/components/Nav'
-import { ArrowRight } from '@/components/Icons'
+import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 const T = ({ children, title, desc }: { children: React.ReactNode; title: string; desc: string }) => (
   <div className="min-h-screen bg-cr-bg"><Nav /><section className="py-16 bg-gradient-to-r from-cr-primary to-blue-700 text-white"><div className="cr-container text-center"><h1 className="text-4xl md:text-5xl font-bold mb-4">{title}</h1><p className="text-xl opacity-90 max-w-2xl mx-auto">{desc}</p></div></section><section className="py-16"><div className="cr-container max-w-3xl">{children}</div></section></div>
 )
 export default function HowToDisputeEquifaxPage() {
-  return (
+  const ARR_0 = ['Go to equifax.com/personal/credit-report-services/credit-dispute/', 'Create an account or sign in', 'Select the item you want to dispute', 'Choose reason: "Not my account" / "Inaccurate" / "Outdated"', 'Submit — Equifax has 30 days to investigate'];
+
+return (
     <T title="How to Dispute on Equifax — Free Step-by-Step Guide" desc="Step-by-step guide to disputing inaccurate information with Equifax.">
       <div className="cr-card mb-8">
         <h2 className="text-2xl font-bold mb-4">Online dispute (fastest)</h2>
         <ol className="space-y-2 text-cr-muted text-sm">
-          {['Go to equifax.com/personal/credit-report-services/credit-dispute/', 'Create an account or sign in', 'Select the item you want to dispute', 'Choose reason: "Not my account" / "Inaccurate" / "Outdated"', 'Submit — Equifax has 30 days to investigate'].map((s, i) => <li key={i} className="flex items-start gap-2"><span className="text-cr-primary font-bold">{i + 1}. </span>{s}</li>)}
+          {ARR_0.map((s, i) => <li key={i} className="flex items-start gap-2"><span className="text-cr-primary font-bold">{i + 1}. </span>{s}</li>)}
         </ol>
       </div>
       <div className="cr-card mb-8">

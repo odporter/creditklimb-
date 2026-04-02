@@ -1,5 +1,7 @@
+'use client'
+
 import { Nav } from '@/components/Nav'
-import { FileText, ArrowRight, CheckCircle } from '@/components/Icons'
+import { FileText, ArrowRight, CheckCircle } from 'lucide-react'
 import Link from 'next/link'
 
 export default function FreeDisputeLetterTemplatePage() {

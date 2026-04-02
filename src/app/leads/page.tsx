@@ -3,7 +3,16 @@
 import { useState, useEffect, useRef } from 'react'
 import { Nav } from '@/components/Nav'
 import { LeadForm } from '@/components/LeadForm'
-import { Shield, CheckCircle, Users, TrendingUp, ArrowRight, Zap, Clock, X, Loader2, Send } from 'lucide-react'
+import { Shield, CheckCircle, ArrowRight, Zap, Clock, X, Loader2, Send } from 'lucide-react'
+
+const POPUP_ITEMS = [
+  'Personalized credit analysis',
+  'Step-by-step action plan',
+  'Which items to dispute first',
+  'Score range assessment',
+  'Free dispute letter access',
+  'Priority support if desired',
+]
 
 export default function LeadsPage() {
   const [popupVisible, setPopupVisible] = useState(false)
@@ -149,14 +158,7 @@ export default function LeadsPage() {
           <div className="mt-8 p-4 bg-cr-surface rounded-xl border border-cr-border">
             <h3 className="font-semibold mb-3 text-center">What you'll receive:</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {[
-                'Personalized credit analysis',
-                'Step-by-step action plan',
-                'Which items to dispute first',
-                'Score range assessment',
-                'Free dispute letter access',
-                'Priority support if desired',
-              ].map((item, i) => (
+              {POPUP_ITEMS.map((item, i) => (
                 <div key={i} className="flex items-center gap-2 text-sm">
                   <CheckCircle size={16} className="text-green-500 flex-shrink-0" />
                   <span>{item}</span>

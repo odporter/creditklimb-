@@ -1,3 +1,5 @@
+'use client'
+
 import { Nav } from '@/components/Nav'
 import Link from 'next/link'
 import { BookOpen, CreditCard, FileText, TrendingUp, AlertTriangle, CheckCircle, ArrowRight } from 'lucide-react'
@@ -54,7 +56,14 @@ const LESSONS = [
 ]
 
 export default function LearnPage() {
-  return (
+  const ARR_0 = [
+              { tip: 'Keep utilization below 30%', detail: 'ideally under 10%' },
+              { tip: 'Never close old cards', detail: 'it hurts your credit age' },
+              { tip: 'Dispute in writing', detail: 'keep copies of everything' },
+              { tip: 'Check reports yearly', detail: 'annualcreditreport.com is free' },
+            ];
+
+return (
     <div className="min-h-screen bg-cr-bg">
       <Nav />
       
@@ -104,12 +113,7 @@ export default function LearnPage() {
         <div className="cr-container">
           <h2 className="text-2xl font-bold text-center mb-8">Quick Credit Tips</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto">
-            {[
-              { tip: 'Keep utilization below 30%', detail: 'ideally under 10%' },
-              { tip: 'Never close old cards', detail: 'it hurts your credit age' },
-              { tip: 'Dispute in writing', detail: 'keep copies of everything' },
-              { tip: 'Check reports yearly', detail: 'annualcreditreport.com is free' },
-            ].map((item, i) => (
+            {ARR_0.map((item, i) => (
               <div key={i} className="cr-card text-center">
                 <CheckCircle className="mx-auto mb-2 text-cr-success" size={24} />
                 <p className="font-medium text-sm text-cr-text">{item.tip}</p>

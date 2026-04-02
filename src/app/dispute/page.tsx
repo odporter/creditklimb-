@@ -1,3 +1,5 @@
+'use client'
+
 import { Nav } from '@/components/Nav'
 import { FileText, CreditCard, Send, CheckCircle, Shield, ArrowRight, Clock, AlertTriangle, Building } from 'lucide-react'
 import Link from 'next/link'
@@ -188,7 +190,34 @@ const PRICING_TIERS = [
 ]
 
 export default function DisputePage() {
-  return (
+  const ARR_0 = [
+              {
+                q: 'Is credit repair legal?',
+                a: 'Yes. The Fair Credit Reporting Act (FCRA) gives you the legal right to dispute inaccurate information on your credit report. Credit repair companies have been operating legally since 1996.'
+              },
+              {
+                q: 'How long does credit repair take?',
+                a: 'Typically 3-6 months to see significant changes. The bureaus have 30 days to respond to disputes. If items are removed, they usually fall off within 1-2 billing cycles.'
+              },
+              {
+                q: 'What\'s the difference between bureau and furnisher disputes?',
+                a: 'Bureau disputes go to Equifax, Experian, or TransUnion. Furnisher disputes go directly to the bank or lender who reported the information. Both are important — furnisher notices often get faster results.'
+              },
+              {
+                q: 'What are sub-bureaus?',
+                a: 'Sub-bureaus like LexisNexis, ChexSystems, and FactorTrust collect information beyond what\'s on your credit score. Landlords, employers, insurers, and banks often check these reports. Negative items on sub-bureaus can block housing, jobs, and loans even when your credit score looks fine.'
+              },
+              {
+                q: 'What\'s pay-for-delete?',
+                a: 'Pay-for-delete is when you negotiate with a collection agency to remove the negative item from your report in exchange for paying the debt. We provide the exact letter templates and negotiation scripts to use.'
+              },
+              {
+                q: 'Do you guarantee results?',
+                a: 'We can\'t guarantee specific items will be removed — that\'s up to the bureaus and furnishers. What we guarantee is that we\'ll file everything properly, follow up at the right times, and escalate when required by law.'
+              },
+            ];
+
+return (
     <div className="min-h-screen bg-cr-bg">
       <Nav />
       
@@ -394,32 +423,7 @@ export default function DisputePage() {
         <div className="cr-container max-w-3xl">
           <h2 className="text-2xl font-bold text-center mb-8">Common Questions</h2>
           <div className="space-y-4">
-            {[
-              {
-                q: 'Is credit repair legal?',
-                a: 'Yes. The Fair Credit Reporting Act (FCRA) gives you the legal right to dispute inaccurate information on your credit report. Credit repair companies have been operating legally since 1996.'
-              },
-              {
-                q: 'How long does credit repair take?',
-                a: 'Typically 3-6 months to see significant changes. The bureaus have 30 days to respond to disputes. If items are removed, they usually fall off within 1-2 billing cycles.'
-              },
-              {
-                q: 'What\'s the difference between bureau and furnisher disputes?',
-                a: 'Bureau disputes go to Equifax, Experian, or TransUnion. Furnisher disputes go directly to the bank or lender who reported the information. Both are important — furnisher notices often get faster results.'
-              },
-              {
-                q: 'What are sub-bureaus?',
-                a: 'Sub-bureaus like LexisNexis, ChexSystems, and FactorTrust collect information beyond what\'s on your credit score. Landlords, employers, insurers, and banks often check these reports. Negative items on sub-bureaus can block housing, jobs, and loans even when your credit score looks fine.'
-              },
-              {
-                q: 'What\'s pay-for-delete?',
-                a: 'Pay-for-delete is when you negotiate with a collection agency to remove the negative item from your report in exchange for paying the debt. We provide the exact letter templates and negotiation scripts to use.'
-              },
-              {
-                q: 'Do you guarantee results?',
-                a: 'We can\'t guarantee specific items will be removed — that\'s up to the bureaus and furnishers. What we guarantee is that we\'ll file everything properly, follow up at the right times, and escalate when required by law.'
-              },
-            ].map((faq, i) => (
+            {ARR_0.map((faq, i) => (
               <div key={i} className="cr-card">
                 <h3 className="font-semibold mb-2">{faq.q}</h3>
                 <p className="text-cr-muted">{faq.a}</p>

@@ -130,7 +130,13 @@ export default function Net30FinderPage() {
     return matchesSearch && matchesCategory
   })
 
-  return (
+  const ARR_0 = [
+              { step: '1', title: 'Apply for Net 30 Account', desc: 'Most vendors require a D-U-N-S number and basic business info' },
+              { step: '2', title: 'Make Purchases & Pay On Time', desc: 'Pay within 30 days to build positive payment history' },
+              { step: '3', title: 'Watch Your PAYDEX Climb', desc: 'D&B tracks your payments and assigns a PAYDEX score (0-100)' },
+            ];
+
+return (
     <div className="min-h-screen" style={{backgroundColor: '#0f172a', color: '#e2e8f0'}}>
       <DarkNav />
       
@@ -168,11 +174,7 @@ export default function Net30FinderPage() {
       <section className="py-8 px-6" style={{backgroundColor: '#0f172a'}}>
         <div className="max-w-4xl mx-auto">
           <div className="grid md:grid-cols-3 gap-4">
-            {[
-              { step: '1', title: 'Apply for Net 30 Account', desc: 'Most vendors require a D-U-N-S number and basic business info' },
-              { step: '2', title: 'Make Purchases & Pay On Time', desc: 'Pay within 30 days to build positive payment history' },
-              { step: '3', title: 'Watch Your PAYDEX Climb', desc: 'D&B tracks your payments and assigns a PAYDEX score (0-100)' },
-            ].map((item, i) => (
+            {ARR_0.map((item, i) => (
               <div key={i} className="p-4 rounded-lg text-center" style={{backgroundColor: '#1e293b', border: '1px solid #334155'}}>
                 <div className="text-2xl font-bold text-blue-400 mb-2">{item.step}</div>
                 <h3 className="font-semibold text-white mb-1">{item.title}</h3>

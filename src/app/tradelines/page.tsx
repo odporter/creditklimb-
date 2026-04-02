@@ -1,8 +1,38 @@
+'use client'
+
 import { Nav } from '@/components/Nav'
 import { CheckCircle, ArrowRight, Users, TrendingUp, CreditCard, Clock } from 'lucide-react'
 
 export default function TradelinesPage() {
-  return (
+  const ARR_0 = [
+              'First-time credit builders',
+              'People recovering from bankruptcy',
+              'Anyone with thin credit files',
+              'Those needing credit for a mortgage',
+              'People with collections or late payments',
+              'Anyone wanting to maximize their score',
+            ];
+
+const ARR_1 = [
+              {
+                q: 'Is this legal?',
+                a: 'Yes. Becoming an authorized user on someone else\'s account is completely legal and a well-established practice in the credit industry.',
+              },
+              {
+                q: 'Does it hurt the primary account holder\'s credit?',
+                a: 'No. As an authorized user, you have no control over the account and it doesn\'t affect their credit.',
+              },
+              {
+                q: 'How long does it take to see results?',
+                a: 'Typically 30-60 days for the tradeline to appear on your credit report. Results can last 1-3 years.',
+              },
+              {
+                q: 'Can I do this more than once?',
+                a: 'Yes. Some people add multiple tradelines over time for continued improvement.',
+              },
+            ];
+
+return (
     <div className="min-h-screen bg-cr-bg">
       <Nav />
       
@@ -89,14 +119,7 @@ export default function TradelinesPage() {
         <div className="cr-container">
           <h2 className="text-3xl font-bold text-center mb-8">Who Are Tradelines For?</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
-            {[
-              'First-time credit builders',
-              'People recovering from bankruptcy',
-              'Anyone with thin credit files',
-              'Those needing credit for a mortgage',
-              'People with collections or late payments',
-              'Anyone wanting to maximize their score',
-            ].map((item, i) => (
+            {ARR_0.map((item, i) => (
               <div key={i} className="cr-card flex items-center gap-3">
                 <CheckCircle className="text-green-500 flex-shrink-0" size={20} />
                 <span>{item}</span>
@@ -161,24 +184,7 @@ export default function TradelinesPage() {
         <div className="cr-container max-w-3xl">
           <h2 className="text-3xl font-bold text-center mb-8">Common Questions</h2>
           <div className="space-y-4">
-            {[
-              {
-                q: 'Is this legal?',
-                a: 'Yes. Becoming an authorized user on someone else\'s account is completely legal and a well-established practice in the credit industry.',
-              },
-              {
-                q: 'Does it hurt the primary account holder\'s credit?',
-                a: 'No. As an authorized user, you have no control over the account and it doesn\'t affect their credit.',
-              },
-              {
-                q: 'How long does it take to see results?',
-                a: 'Typically 30-60 days for the tradeline to appear on your credit report. Results can last 1-3 years.',
-              },
-              {
-                q: 'Can I do this more than once?',
-                a: 'Yes. Some people add multiple tradelines over time for continued improvement.',
-              },
-            ].map((faq, i) => (
+            {ARR_1.map((faq, i) => (
               <div key={i} className="cr-card">
                 <h3 className="font-semibold mb-2">{faq.q}</h3>
                 <p className="text-cr-muted">{faq.a}</p>

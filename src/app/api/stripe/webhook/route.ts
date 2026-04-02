@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
   switch (event.type) {
     case 'checkout.session.completed': {
       const session = event.data.object as Stripe.Checkout.Session
-      console.log('✅ Payment succeeded:', session.id, '—', session.amount_total / 100, session.currency)
+      console.log('✅ Payment succeeded:', session.id, '—', (session.amount_total ?? 0) / 100, session.currency)
       console.log('  Customer:', session.customer_email || session.customer_details?.email)
       console.log('  Plan:', session.metadata?.plan || 'unknown')
       break

@@ -1,11 +1,15 @@
+'use client'
+
 import { Nav } from '@/components/Nav'
-import { ArrowRight } from '@/components/Icons'
+import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 const T = ({ children, title, desc }: { children: React.ReactNode; title: string; desc: string }) => (
   <div className="min-h-screen bg-cr-bg"><Nav /><section className="py-16 bg-gradient-to-r from-cr-primary to-blue-700 text-white"><div className="cr-container text-center"><h1 className="text-4xl md:text-5xl font-bold mb-4">{title}</h1><p className="text-xl opacity-90 max-w-2xl mx-auto">{desc}</p></div></section><section className="py-16"><div className="cr-container max-w-3xl">{children}</div></section></div>
 )
 export default function RemoveChexSystemsPage() {
-  return (
+  const ARR_0 = ['Request your full ChexSystems report: 1-800-307-2837 or chexsystems.com', 'Review every item — dispute anything inaccurate or unresolved', 'Send a written dispute to ChexSystems, P.O. Box 105, Minneapolis, MN 55480', 'Include your full name, address, SSN, specific items disputed, and reason', 'Send via certified mail — they have 30 days to investigate'];
+
+return (
     <T title="How to Remove Items From ChexSystems Report" desc="ChexSystems tracks bank account history. Here's how to dispute and remove negative items.">
       <div className="cr-card mb-8">
         <h2 className="text-2xl font-bold mb-4">What is ChexSystems?</h2>
@@ -14,7 +18,7 @@ export default function RemoveChexSystemsPage() {
       <div className="cr-card mb-8">
         <h2 className="text-2xl font-bold mb-4">How to dispute ChexSystems</h2>
         <ol className="space-y-3 text-cr-muted text-sm">
-          {['Request your full ChexSystems report: 1-800-307-2837 or chexsystems.com', 'Review every item — dispute anything inaccurate or unresolved', 'Send a written dispute to ChexSystems, P.O. Box 105, Minneapolis, MN 55480', 'Include your full name, address, SSN, specific items disputed, and reason', 'Send via certified mail — they have 30 days to investigate'].map((s, i) => <li key={i} className="flex items-start gap-2"><span className="text-cr-primary font-bold">{i + 1}. </span>{s}</li>)}
+          {ARR_0.map((s, i) => <li key={i} className="flex items-start gap-2"><span className="text-cr-primary font-bold">{i + 1}. </span>{s}</li>)}
         </ol>
       </div>
       <div className="cr-card">

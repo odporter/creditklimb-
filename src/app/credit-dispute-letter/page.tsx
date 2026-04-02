@@ -1,9 +1,20 @@
+'use client'
+
 import { Nav } from '@/components/Nav'
-import { FileText, ArrowRight, CheckCircle } from '@/components/Icons'
+import { FileText, ArrowRight, CheckCircle } from 'lucide-react'
 import Link from 'next/link'
 
 export default function CreditDisputeLetterPage() {
-  return (
+  const ARR_0 = [
+                'Identifies the specific account and item being disputed',
+                'States the factual basis for the dispute (not yours, paid, settled, etc.)',
+                'Requests formal investigation under FCRA Section 611',
+                'Demands removal if the furnisher cannot verify the debt within 30 days',
+                'Includes your full contact information and signature',
+                'Sent via certified mail with return receipt',
+              ];
+
+return (
     <div className="min-h-screen bg-cr-bg">
       <Nav />
       <section className="py-16 bg-gradient-to-r from-cr-primary to-blue-700 text-white">
@@ -31,14 +42,7 @@ export default function CreditDisputeLetterPage() {
           <div className="cr-card mb-8">
             <h2 className="text-2xl font-bold mb-4">What makes a dispute letter effective?</h2>
             <ul className="space-y-2">
-              {[
-                'Identifies the specific account and item being disputed',
-                'States the factual basis for the dispute (not yours, paid, settled, etc.)',
-                'Requests formal investigation under FCRA Section 611',
-                'Demands removal if the furnisher cannot verify the debt within 30 days',
-                'Includes your full contact information and signature',
-                'Sent via certified mail with return receipt',
-              ].map((item, i) => (
+              {ARR_0.map((item, i) => (
                 <li key={i} className="flex items-start gap-2 text-sm">
                   <CheckCircle size={16} className="text-green-500 flex-shrink-0 mt-0.5" />
                   <span className="text-cr-muted">{item}</span>

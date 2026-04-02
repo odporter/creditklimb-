@@ -50,7 +50,22 @@ export default function ContactPage() {
     }
   }
 
-  return (
+  const ARR_0 = [
+                    {
+                      q: 'How long does credit repair take?',
+                      a: 'Typically 3-6 months for noticeable results. The bureaus have 30 days to investigate by law.',
+                    },
+                    {
+                      q: 'Do you offer refunds?',
+                      a: 'Yes — Premium and Enterprise plans have a 30-day money-back guarantee if you are not satisfied.',
+                    },
+                    {
+                      q: 'Is credit repair legal?',
+                      a: 'Absolutely. The FCRA gives you the legal right to dispute inaccurate information on your credit report.',
+                    },
+                  ];
+
+return (
     <div className="min-h-screen bg-cr-bg">
       <Nav />
 
@@ -101,20 +116,7 @@ export default function ContactPage() {
               <div>
                 <h2 className="text-xl font-bold mb-4">Common Questions</h2>
                 <div className="cr-card space-y-3">
-                  {[
-                    {
-                      q: 'How long does credit repair take?',
-                      a: 'Typically 3-6 months for noticeable results. The bureaus have 30 days to investigate by law.',
-                    },
-                    {
-                      q: 'Do you offer refunds?',
-                      a: 'Yes — Premium and Enterprise plans have a 30-day money-back guarantee if you are not satisfied.',
-                    },
-                    {
-                      q: 'Is credit repair legal?',
-                      a: 'Absolutely. The FCRA gives you the legal right to dispute inaccurate information on your credit report.',
-                    },
-                  ].map((item, i) => (
+                  {ARR_0.map((item, i) => (
                     <div key={i} className="border-b border-cr-border pb-3 last:border-0 last:pb-0">
                       <div className="font-medium text-sm">{item.q}</div>
                       <div className="text-cr-muted text-sm">{item.a}</div>

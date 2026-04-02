@@ -1,3 +1,5 @@
+'use client'
+
 import { DarkNav } from '@/components/Nav'
 import Link from 'next/link'
 import { Building2, TrendingUp, CreditCard, FileText, Shield, CheckCircle, ArrowRight, DollarSign, Briefcase, Globe, Lock } from 'lucide-react'
@@ -65,7 +67,30 @@ const BUREAUS = [
 ]
 
 export default function BusinessCreditPage() {
-  return (
+  const ARR_0 = [
+              {
+                q: 'Does business credit affect my personal credit score?',
+                a: 'No. Business credit is completely separate from personal credit. Opening business cards or loans doesn\'t show up on your personal credit report — unless you personally guarantee and default.',
+              },
+              {
+                q: 'How long does it take to build business credit?',
+                a: 'It typically takes 6-12 months of active tradeline building to establish meaningful business credit. Some businesses see scores within 90 days.',
+              },
+              {
+                q: 'Do I need an LLC to build business credit?',
+                a: 'Yes, you need a formal business entity (LLC, C-Corp, S-Corp). Sole proprietorships can\'t establish separate business credit.',
+              },
+              {
+                q: 'How much can I borrow with business credit?',
+                a: 'Depending on your business credit profile, you can access $10,000 to $5 million+. Business credit cards often start at $5,000-$25,000 and grow with your profile.',
+              },
+              {
+                q: 'What\'s a D-U-N-S number?',
+                a: 'A D-U-N-S number is a unique identifier assigned by Dun & Bradstreet. It\'s the foundation of business credit — lenders, vendors, and insurers use it to look up your business.',
+              },
+            ];
+
+return (
     <div className="min-h-screen" style={{backgroundColor: '#0f172a', color: '#e2e8f0'}}>
       <DarkNav />
       
@@ -153,28 +178,7 @@ export default function BusinessCreditPage() {
         <div className="max-w-3xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-12 text-white">Common Questions</h2>
           <div className="space-y-4">
-            {[
-              {
-                q: 'Does business credit affect my personal credit score?',
-                a: 'No. Business credit is completely separate from personal credit. Opening business cards or loans doesn\'t show up on your personal credit report — unless you personally guarantee and default.',
-              },
-              {
-                q: 'How long does it take to build business credit?',
-                a: 'It typically takes 6-12 months of active tradeline building to establish meaningful business credit. Some businesses see scores within 90 days.',
-              },
-              {
-                q: 'Do I need an LLC to build business credit?',
-                a: 'Yes, you need a formal business entity (LLC, C-Corp, S-Corp). Sole proprietorships can\'t establish separate business credit.',
-              },
-              {
-                q: 'How much can I borrow with business credit?',
-                a: 'Depending on your business credit profile, you can access $10,000 to $5 million+. Business credit cards often start at $5,000-$25,000 and grow with your profile.',
-              },
-              {
-                q: 'What\'s a D-U-N-S number?',
-                a: 'A D-U-N-S number is a unique identifier assigned by Dun & Bradstreet. It\'s the foundation of business credit — lenders, vendors, and insurers use it to look up your business.',
-              },
-            ].map((faq, i) => (
+            {ARR_0.map((faq, i) => (
               <div key={i} className="p-6 rounded-xl" style={{backgroundColor: '#0f172a', border: '1px solid #334155'}}>
                 <h3 className="font-bold mb-2 text-white">{faq.q}</h3>
                 <p style={{color: '#94a3b8'}}>{faq.a}</p>
