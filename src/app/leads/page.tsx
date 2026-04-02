@@ -1,15 +1,101 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Nav } from '@/components/Nav'
 import { LeadForm } from '@/components/LeadForm'
-import { Shield, CheckCircle, Users, TrendingUp, ArrowRight, Zap, Clock } from 'lucide-react'
+import { Shield, CheckCircle, Users, TrendingUp, ArrowRight, Zap, Clock, X, Loader2, Send } from 'lucide-react'
 
 export default function LeadsPage() {
+  const [popupVisible, setPopupVisible] = useState(false)
+  const [popupEmail, setPopupEmail] = useState('')
+  const [popupSubmitting, setPopupSubmitting] = useState(false)
+  const [popupDone, setPopupDone] = useState(false)
+  const popupShownRef = useRef(false)
+
+  useEffect(() => {
+    if (popupShownRef.current) return
+    const handleMouseLeave = (e: MouseEvent) => {
+      if (e.clientY <= 0 && !popupShownRef.current) {
+        popupShownRef.current = true
+        setPopupVisible(true)
+      }
+    }
+    document.addEventListener('mouseleave', handleMouseLeave)
+    return () => document.removeEventListener('mouseleave', handleMouseLeave)
+  }, [])
+
+  const handlePopupSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!popupEmail) return
+    setPopupSubmitting(true)
+    try {
+      await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: popupEmail, source: 'exit-intent' }),
+      })
+    } catch {}
+    setPopupSubmitting(false)
+    setPopupDone(true)
+    setTimeout(() => setPopupVisible(false), 2500)
+  }
+
   return (
     <div className="min-h-screen bg-cr-bg">
       <Nav />
-      
+
+      {/* Exit-Intent Popup */}
+      {popupVisible && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 relative">
+            <button
+              onClick={() => setPopupVisible(false)}
+              className="absolute top-4 right-4 text-cr-muted hover:text-cr-text"
+            >
+              <X size={20} />
+            </button>
+            {!popupDone ? (
+              <>
+                <div className="text-center mb-6">
+                  <div className="w-16 h-16 bg-cr-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Zap className="text-cr-primary" size={32} />
+                  </div>
+                  <h2 className="text-2xl font-bold mb-2">Wait! Get your free credit analysis before you go</h2>
+                  <p className="text-cr-muted">
+                    Enter your email and we'll send you a personalized breakdown of what's hurting your credit score.
+                  </p>
+                </div>
+                <form onSubmit={handlePopupSubmit} className="space-y-3">
+                  <input
+                    type="email"
+                    value={popupEmail}
+                    onChange={e => setPopupEmail(e.target.value)}
+                    className="w-full px-4 py-3 rounded-lg border border-cr-border bg-cr-bg focus:border-cr-primary focus:outline-none"
+                    placeholder="your@email.com"
+                    required
+                    autoFocus
+                  />
+                  <button
+                    type="submit"
+                    disabled={popupSubmitting}
+                    className="cr-btn cr-btn-primary w-full py-3 disabled:opacity-50"
+                  >
+                    {popupSubmitting ? <Loader2 size={18} className="animate-spin mx-auto" /> : <><Send size={16} className="inline mr-2" />Send My Free Analysis</>}
+                  </button>
+                  <p className="text-center text-xs text-cr-muted">No spam. Unsubscribe anytime.</p>
+                </form>
+              </>
+            ) : (
+              <div className="text-center py-6">
+                <CheckCircle className="text-green-500 mx-auto mb-3" size={48} />
+                <h3 className="text-xl font-bold mb-2">You're in!</h3>
+                <p className="text-cr-muted">Check your email for your free credit analysis.</p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* Sticky mobile CTA */}
       <div className="sticky bottom-0 left-0 right-0 z-40 bg-white border-t border-cr-border p-3 md:hidden shadow-lg">
         <a href="#get-started" className="cr-btn cr-btn-primary w-full text-center block">

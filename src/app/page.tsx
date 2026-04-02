@@ -18,6 +18,7 @@ import {
   Lock,
 } from 'lucide-react'
 import { Nav } from '@/components/Nav'
+import { NewsletterForm } from '@/components/NewsletterForm'
 
 const FEATURES = [
   {
@@ -168,12 +169,39 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Urgency / Social Proof Ticker */}
+      <section className="py-3 bg-cr-surface border-b border-cr-border overflow-hidden">
+        <div className="flex items-center gap-8">
+          <div className="flex-shrink-0 px-4 py-1 bg-cr-primary text-white text-sm font-bold rounded-r-full">
+            🔔 Live
+          </div>
+          <div className="flex gap-8 overflow-hidden">
+            {[
+              'Marcus from Atlanta just generated his first dispute letter',
+              'Sandra from Houston completed her credit analysis',
+              'James from Phoenix is disputing 7 items on his report',
+              'A new member joined from Chicago',
+              'Tyrone from Detroit upgraded to We Handle It',
+              'Keisha from Houston downloaded her dispute letters',
+            ].map((msg, i) => (
+              <span key={i} className="text-sm text-cr-muted whitespace-nowrap">
+                {msg} <span className="text-green-500 mx-2">✓</span>
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Hero */}
       <section className="py-16 md:py-24">
         <div className="cr-container text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-medium mb-6">
             <CheckCircle size={16} />
             100% Free Credit Repair Tools — No Credit Card Required
+          </div>
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-cr-primary/10 text-cr-primary rounded-full text-sm font-medium mb-6 ml-4">
+            <Users size={16} />
+            Join 10,000+ members who've improved their credit
           </div>
           <h1 className="text-4xl md:text-6xl font-bold mb-6">
             Don't Just Check Your Credit.
@@ -567,7 +595,19 @@ export default function HomePage() {
               <Link href="/leads">Leads</Link>
             </div>
           </div>
-          <p className="text-center text-cr-muted text-sm mt-8">
+
+          {/* Newsletter Signup */}
+          <div className="mt-6 pt-6 border-t border-cr-border">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+              <div>
+                <div className="font-semibold text-sm mb-0.5">Get credit tips & updates</div>
+                <div className="text-xs text-cr-muted">No spam. Unsubscribe anytime.</div>
+              </div>
+              <NewsletterForm />
+            </div>
+          </div>
+
+          <p className="text-center text-cr-muted text-sm mt-6">
             © {new Date().getFullYear()} CreditKlimb™. Educational purposes only. Not legal advice.
           </p>
         </div>

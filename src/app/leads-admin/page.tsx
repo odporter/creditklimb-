@@ -30,6 +30,7 @@ interface Lead {
   tradeline_interest: string
   additional_info: string
   status?: string
+  score?: number // computed lead score (0-100)
 }
 
 interface Analytics {
@@ -43,6 +44,28 @@ interface Analytics {
   highIntentLeads: number
   urgentLeads: number
   recent: Lead[]
+}
+
+// Compute a lead score (0-100) based on urgency signals
+function computeLeadScore(lead: Lead): number {
+  let score = 0
+  // Timeline: ASAP = 40pts, 1-3 months = 25pts, 3-6 = 15pts
+  if (lead.timeline?.toLowerCase().includes('asap')) score += 40
+  else if (lead.timeline?.includes('1-3')) score += 25
+  else if (lead.timeline?.includes('3-6')) score += 15
+  // Poor/Fair credit = 30pts (they need help most)
+  if (lead.score_range?.includes('Poor')) score += 30
+  else if (lead.score_range?.includes('Fair')) score += 20
+  // Tradeline interest = 20pts (high-value upsell signal)
+  if (lead.tradeline_interest === 'yes') score += 20
+  // Phone provided = 10pts (easier to contact)
+  if (lead.phone) score += 10
+  return Math.min(score, 100)
+}
+
+function isHighIntent(lead: Lead): boolean {
+  const s = computeLeadScore(lead)
+  return s >= 80 || lead.timeline?.toLowerCase().includes('asap')
 }
 
 export default function LeadsAdminPage() {
@@ -328,11 +351,30 @@ export default function LeadsAdminPage() {
                 </div>
               ) : (
                 <div className="space-y-3">
-                  {filteredLeads.map((lead: Lead) => (
+                  {filteredLeads.map((lead: Lead) => {
+                    const score = computeLeadScore(lead)
+                    const highIntent = isHighIntent(lead)
+                    return (
                     <div
                       key={lead.id}
-                      className="p-4 rounded-lg border border-cr-border bg-cr-bg hover:border-cr-primary/30 transition-colors"
+                      className={`p-4 rounded-lg border transition-colors ${
+                        highIntent
+                          ? 'border-red-300 bg-red-50 hover:border-red-400'
+                          : 'border-cr-border bg-cr-bg hover:border-cr-primary/30'
+                      }`}
                     >
+                      {highIntent && (
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-100 text-red-700 rounded text-xs font-bold">
+                            🔥 High-Intent Lead — Score {score}/100
+                          </span>
+                          {lead.timeline?.toLowerCase().includes('asap') && (
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-orange-100 text-orange-700 rounded text-xs font-medium">
+                              ⚡ ASAP — Priority
+                            </span>
+                          )}
+                        </div>
+                      )}
                       <div className="flex items-start justify-between gap-3">
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 flex-wrap mb-1">
@@ -395,7 +437,7 @@ export default function LeadsAdminPage() {
                         </div>
                       </div>
                     </div>
-                  ))}
+                  )})}
                 </div>
               )}
 

@@ -1,80 +1,87 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 /*
- * CREDITFIX PREMIUM AUTOMATION
- * 
- * Handles:
- * - Premium plan purchases ($29, $99)
- * - Stripe integration
- * - Automatic service delivery
+ * CREDITKLIMB — PREMIUM / CHECKOUT API
+ *
+ * GET:  Returns available plans
+ * POST: Creates a Stripe Checkout Session and redirects to Stripe
  */
+
+const PLANS = {
+  premium: {
+    name: 'Full Repair',
+    price: 29,
+    priceId: process.env.STRIPE_PREMIUM_PRICE_ID || 'price_premium_placeholder',
+    description: 'Everything you need to fix your credit report',
+  },
+  'mail-service': {
+    name: 'We Handle It',
+    price: 49,
+    priceId: process.env.STRIPE_MAIL_SERVICE_PRICE_ID || 'price_mailservice_placeholder',
+    description: 'We print, sign, and mail all dispute letters for you',
+  },
+}
+
+export async function GET() {
+  return NextResponse.json({ plans: PLANS })
+}
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { plan, email, name, phone, paymentMethodId } = body
-
-    const PLANS: Record<string, { price: number; name: string }> = {
-      free: { price: 0, name: 'Free' },
-      premium: { price: 29, name: 'Premium' },
-      enterprise: { price: 99, name: 'Enterprise' },
-    }
+    const { plan } = body
 
     const selectedPlan = PLANS[plan as keyof typeof PLANS]
-
     if (!selectedPlan) {
-      return NextResponse.json({ error: 'Invalid plan' }, { status: 400 })
+      return NextResponse.json({ error: 'Invalid plan. Use "premium" or "mail-service".' }, { status: 400 })
     }
 
-    // Free plan - no payment needed
-    if (plan === 'free') {
+    const stripeSecretKey = process.env.STRIPE_SECRET_KEY
+    if (!stripeSecretKey || stripeSecretKey.startsWith('sk_test_your')) {
+      // Demo mode — not yet configured
       return NextResponse.json({
-        success: true,
-        plan: 'free',
-        message: 'Welcome to CreditKlimb! Start with free tools.',
-        redirectUrl: '/dispute',
+        success: false,
+        error: 'Stripe not configured',
+        demo: true,
+        message: 'Add STRIPE_SECRET_KEY to .env.local to enable payments',
+        configureUrl: '/SETUP.md',
       })
     }
 
-    // In production, this would:
-    // 1. Create Stripe customer
-    // 2. Process payment
-    // 3. Create account in database
-    // 4. Send welcome email with next steps
-    // 5. For Enterprise: assign credit advisor
+    const origin = request.headers.get('origin') || 'http://localhost:3000'
 
-    // For now, return demo response
-    const orderId = `CF-${plan.toUpperCase()}-${Date.now().toString(36)}`
+    // Dynamically import stripe to avoid loading if not needed
+    const Stripe = (await import('stripe')).default
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const stripe = new Stripe(stripeSecretKey)
 
-    return NextResponse.json({
-      success: true,
-      orderId,
-      plan: selectedPlan.name,
-      price: selectedPlan.price,
-      message: `Welcome to CreditKlimb ${selectedPlan.name}!`,
-      nextSteps: plan === 'premium' 
-        ? [
-            'Check your email for welcome instructions',
-            'Your credit advisor will contact you within 24 hours',
-            'Upload your credit reports to your dashboard',
-            'We\'ll review and create your dispute letters',
-          ]
-        : [
-            'Check your email for welcome instructions',
-            'A credit advisor will contact you today',
-            'We\'ll handle everything from here',
-            'Updates sent to your email every 3 days',
-          ],
-      // In production, this would be Stripe checkout URL
-      checkoutUrl: plan === 'premium' 
-        ? '/api/checkout/premium'
-        : '/api/checkout/enterprise',
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: `CreditKlimb™ — ${selectedPlan.name}`,
+              description: selectedPlan.description,
+            },
+            unit_amount: selectedPlan.price * 100,
+          },
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      success_url: `${origin}/premium/success?session_id={CHECKOUT_SESSION_ID}&plan=${plan}`,
+      cancel_url: `${origin}/dispute`,
+      metadata: {
+        plan,
+        customer_email: body.email || '',
+      },
     })
+
+    return NextResponse.json({ success: true, checkoutUrl: session.url })
   } catch (error: any) {
-    console.error('Premium error:', error)
-    return NextResponse.json(
-      { error: 'Failed to process' },
-      { status: 500 }
-    )
+    console.error('Stripe checkout error:', error)
+    return NextResponse.json({ error: error.message || 'Checkout failed' }, { status: 500 })
   }
 }

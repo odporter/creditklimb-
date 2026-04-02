@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { FileText, CreditCard, Send, Lock, ArrowLeft, CheckCircle, Download, Copy, Building, AlertTriangle, Clock, ChevronDown, ChevronUp } from 'lucide-react'
+import { FileText, CreditCard, Send, Lock, ArrowLeft, ArrowRight, CheckCircle, Download, Copy, Building, AlertTriangle, Clock, ChevronDown, ChevronUp } from 'lucide-react'
 import { Nav } from '@/components/Nav'
 
 // ============================================================
@@ -644,6 +644,26 @@ export default function FullDisputePage() {
                     <h2 className="text-xl font-bold text-green-900">{generatedLetters.length} Letters Generated!</h2>
                     <p className="text-green-700">Review, copy, or download each letter below.</p>
                   </div>
+                </div>
+              </div>
+
+              {/* Inline Upsell — right after letter generation */}
+              <div className="cr-card bg-gradient-to-r from-purple-50 to-blue-50 border-purple-200">
+                <div className="flex flex-col md:flex-row items-center gap-4">
+                  <div className="flex-1">
+                    <div className="text-xs font-bold text-purple-600 uppercase tracking-wide mb-1">Save Time. Guaranteed Delivery.</div>
+                    <h3 className="font-bold text-lg mb-1">Want us to mail this letter AND handle everything?</h3>
+                    <p className="text-cr-muted text-sm">
+                      We print, sign, and mail via certified mail — plus follow up at 30 and 60 days. You do nothing.
+                    </p>
+                  </div>
+                  <Link
+                    href="/dispute/mail-service"
+                    className="px-6 py-3 bg-purple-600 text-white font-bold rounded-lg hover:bg-purple-700 transition-colors whitespace-nowrap flex items-center gap-2 flex-shrink-0"
+                  >
+                    We Handle It — $49
+                    <ArrowRight size={16} />
+                  </Link>
                 </div>
               </div>
 
