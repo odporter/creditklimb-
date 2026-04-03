@@ -102,7 +102,16 @@ export default function CalculatorPage() {
                     type="number"
                     className="cr-input"
                     value={currentScore}
-                    onChange={(e) => setCurrentScore(parseInt(e.target.value) || 580)}
+                    onChange={(e) => {
+                      const val = e.target.value
+                      if (val === '') return
+                      const num = parseInt(val)
+                      if (!isNaN(num)) setCurrentScore(Math.max(300, Math.min(850, num)))
+                    }}
+                    onBlur={(e) => {
+                      const val = e.target.value
+                      if (val === '') setCurrentScore(580)
+                    }}
                     min={300}
                     max={850}
                   />
@@ -135,7 +144,16 @@ export default function CalculatorPage() {
                         type="number"
                         className="cr-input pl-10"
                         value={amount}
-                        onChange={(e) => setAmount(parseInt(e.target.value) || 0)}
+                        onChange={(e) => {
+                          const val = e.target.value
+                          if (val === '') return
+                          const num = parseInt(val)
+                          if (!isNaN(num)) setAmount(Math.max(0, num))
+                        }}
+                        onBlur={(e) => {
+                          const val = e.target.value
+                          if (val === '') setAmount(1000)
+                        }}
                       />
                     </div>
                   </div>

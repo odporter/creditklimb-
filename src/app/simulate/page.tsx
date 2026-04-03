@@ -76,7 +76,16 @@ export default function SimulatePage() {
                 <input
                   type="number"
                   value={currentScore}
-                  onChange={(e) => setCurrentScore(Math.max(300, Math.min(850, parseInt(e.target.value) || 300)))}
+                  onChange={(e) => {
+                    const val = e.target.value
+                    if (val === '') return // Let user backspace to empty
+                    const num = parseInt(val)
+                    if (!isNaN(num)) setCurrentScore(Math.max(300, Math.min(850, num)))
+                  }}
+                  onBlur={(e) => {
+                    const val = e.target.value
+                    if (val === '') setCurrentScore(620) // Reset to default on empty blur
+                  }}
                   className="text-4xl font-bold bg-transparent border-b-2 border-cr-primary focus:outline-none w-32"
                   min={300}
                   max={850}

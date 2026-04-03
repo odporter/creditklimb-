@@ -252,7 +252,15 @@ export default function DebtPage() {
                     <input
                       type="number"
                       value={extraPayment}
-                      onChange={e => setExtraPayment(Number(e.target.value) || 0)}
+                      onChange={e => {
+                        const val = e.target.value
+                        if (val === '') return
+                        const num = parseFloat(val)
+                        if (!isNaN(num)) setExtraPayment(Math.max(0, num))
+                      }}
+                      onBlur={e => {
+                        if (e.target.value === '') setExtraPayment(200)
+                      }}
                       className="w-full pl-10 pr-4 py-3 rounded-lg border border-cr-border bg-cr-bg focus:border-cr-primary focus:outline-none text-lg"
                     />
                   </div>
