@@ -441,7 +441,7 @@ export default function FullDisputePage() {
 
             <div className="text-center mb-6">
               <div className="w-16 h-16 bg-purple-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <FileText size={28} className="text-purple-600" />
+                <FileText size={28} className="text-purple-900" />
               </div>
               <h2 className="text-2xl font-bold mb-2">Full Repair Pack — {letterCount} Letters</h2>
               <p className="text-cr-muted">This is your complete credit repair package. Pay once, use forever.</p>
@@ -449,7 +449,7 @@ export default function FullDisputePage() {
 
             {/* Full pack benefits */}
             <div className="bg-purple-50 border border-purple-200 rounded-xl p-4 mb-5">
-              <div className="text-xs font-bold text-purple-600 uppercase tracking-wide mb-3">What's included:</div>
+              <div className="text-xs font-bold text-purple-900 uppercase tracking-wide mb-3">What's included:</div>
               <div className="space-y-2">
                 {[
                   `${letterCount} FCRA-compliant letters — bureaus, sub-bureaus, and furnishers`,
@@ -459,7 +459,7 @@ export default function FullDisputePage() {
                   'Unlimited use — dispute multiple items with these templates forever',
                 ].map((b, i) => (
                   <div key={i} className="flex items-start gap-2 text-sm">
-                    <CheckCircle size={14} className="text-purple-500 flex-shrink-0 mt-0.5" />
+                    <CheckCircle size={14} className="text-purple-700 flex-shrink-0 mt-0.5" />
                     <span>{b}</span>
                   </div>
                 ))}
@@ -486,7 +486,7 @@ export default function FullDisputePage() {
               </ul>
               <div className="border-t border-cr-border mt-3 pt-3 flex justify-between font-bold text-xl">
                 <span>Total</span>
-                <span className="text-purple-600">$29</span>
+                <span className="text-purple-900">$29</span>
               </div>
             </div>
 
@@ -545,7 +545,7 @@ export default function FullDisputePage() {
             <div className="cr-card bg-gradient-to-r from-purple-50 to-blue-50 border-purple-200">
               <div className="flex flex-col md:flex-row items-center gap-4">
                 <div className="flex-1">
-                  <div className="text-xs font-bold text-purple-600 uppercase tracking-wide mb-1">Save Time. Guaranteed Delivery.</div>
+                  <div className="text-xs font-bold text-purple-900 uppercase tracking-wide mb-1">Save Time. Guaranteed Delivery.</div>
                   <h3 className="font-bold text-lg mb-1">Want us to mail this letter AND handle everything?</h3>
                   <p className="text-cr-muted text-sm">
                     We print, sign, and mail via certified mail — plus follow up at 30 and 60 days. You do nothing.

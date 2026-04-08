@@ -196,7 +196,7 @@ export default function CalculatorPage() {
           </div>
 
           <div className="mt-8 p-4 bg-blue-50 rounded-lg">
-            <p className="text-sm text-blue-800">
+            <p className="text-sm text-blue-900">
               <strong>Note:</strong> This calculator provides estimates only. Your actual score impact 
               depends on many factors including your complete credit history, current utilization, 
               payment history, and more.

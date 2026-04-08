@@ -20,7 +20,7 @@ const PLANS = [
       'Score simulator',
       'Access to all learn articles',
     ],
-    cta: 'Get Started Free',
+    cta: 'View Plans & Pricing',
     href: '/dispute',
     highlighted: false,
     note: 'The free plan is genuinely free. No hidden fees.',

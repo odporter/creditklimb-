@@ -167,7 +167,7 @@ export default function SimulatePage() {
                       <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
                         scenario.type === 'positive' ? 'bg-green-100 text-green-600' :
                         scenario.type === 'negative' ? 'bg-red-100 text-red-600' :
-                        'bg-yellow-100 text-yellow-600'
+                        'bg-yellow-100 text-yellow-800'
                       }`}>
                         {scenario.type === 'positive' ? <Plus size={16} /> :
                          scenario.type === 'negative' ? <Minus size={16} /> :
@@ -203,7 +203,7 @@ export default function SimulatePage() {
                         <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
                           scenario.type === 'positive' ? 'bg-green-100 text-green-600' :
                           scenario.type === 'negative' ? 'bg-red-100 text-red-600' :
-                          'bg-yellow-100 text-yellow-600'
+                          'bg-yellow-100 text-yellow-800'
                         }`}>
                           <Minus size={16} />
                         </div>

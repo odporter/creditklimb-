@@ -318,7 +318,7 @@ export default function StarterDisputePage() {
               <div className="cr-card border-2 border-purple-200 bg-purple-50/50">
                 <div className="flex flex-col md:flex-row items-center gap-4">
                   <div className="flex-1">
-                    <div className="text-xs font-bold text-purple-600 uppercase tracking-wide mb-1">Want ALL bureaus covered?</div>
+                    <div className="text-xs font-bold text-purple-900 uppercase tracking-wide mb-1">Want ALL bureaus covered?</div>
                     <h3 className="font-bold mb-1">Go Pro — $29 Full Repair Pack</h3>
                     <p className="text-cr-muted text-sm">3 bureaus + sub-bureaus + furnisher notices + escalation + pay-for-delete. Everything you need to fix your whole report.</p>
                   </div>

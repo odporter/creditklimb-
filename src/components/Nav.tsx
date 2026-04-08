@@ -41,6 +41,9 @@ export function Nav() {
           <Link href="/learn" className="text-sm font-medium text-gray-600 hover:text-gray-900">
             Learn
           </Link>
+          <Link href="/ask" className="text-sm font-medium text-gray-600 hover:text-gray-900">
+            Ask Us
+          </Link>
           <Link href="/contact" className="cr-btn cr-btn-primary text-sm">
             Get Help
           </Link>

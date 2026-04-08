@@ -16,6 +16,8 @@ import {
   Phone,
   Mail,
   Lock,
+  HelpCircle,
+  MessageSquare,
 } from 'lucide-react'
 import { Nav } from '@/components/Nav'
 import { NewsletterForm } from '@/components/NewsletterForm'
@@ -214,12 +216,12 @@ export default function HomePage() {
             Everything you need to climb to better credit.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/dispute" className="cr-btn cr-btn-primary text-lg px-8 py-4">
-              Start Free Dispute
+            <Link href="/tools" className="cr-btn cr-btn-primary text-lg px-8 py-4">
+              Explore Free Tools
               <ArrowRight size={18} className="ml-2" />
             </Link>
-            <Link href="/tools" className="cr-btn cr-btn-secondary text-lg px-8 py-4">
-              Explore Free Tools
+            <Link href="/dispute" className="cr-btn cr-btn-secondary text-lg px-8 py-4">
+              Generate Dispute Letters
             </Link>
           </div>
           {/* Trust row under CTA */}
@@ -336,6 +338,32 @@ export default function HomePage() {
             <Link href="/tools" className="cr-btn cr-btn-secondary">
               View All Free Tools
               <ArrowRight size={16} className="ml-2" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Don't See It? Ask Us */}
+      <section className="py-12 bg-gradient-to-r from-amber-50 to-orange-50 border-y border-amber-100">
+        <div className="cr-container">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center flex-shrink-0">
+                <HelpCircle size={22} className="text-amber-600" />
+              </div>
+              <div>
+                <h3 className="font-bold text-lg text-amber-900">Didn't see what you need?</h3>
+                <p className="text-amber-700 text-sm">
+                  We probably cover it. Net30 vendors, specific dispute types, furnisher notices — if it's credit-related, just ask.
+                </p>
+              </div>
+            </div>
+            <Link
+              href="/ask"
+              className="px-6 py-3 bg-amber-500 text-white font-bold rounded-lg hover:bg-amber-600 transition-colors whitespace-nowrap flex items-center gap-2 flex-shrink-0"
+            >
+              <MessageSquare size={16} />
+              Ask Us — Free
             </Link>
           </div>
         </div>
@@ -559,12 +587,12 @@ export default function HomePage() {
             Start with our free tools. No credit card required.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/dispute" className="cr-btn cr-btn-primary text-lg px-8 py-4">
-              Get Started Free
+            <Link href="/tools" className="cr-btn cr-btn-primary text-lg px-8 py-4">
+              Use Free Tools
               <ArrowRight size={18} className="ml-2" />
             </Link>
             <Link href="/leads" className="cr-btn cr-btn-secondary text-lg px-8 py-4">
-              Get Free Analysis
+              Free Credit Analysis
             </Link>
           </div>
           <div className="flex flex-wrap justify-center gap-6 mt-6 text-sm text-cr-muted">
@@ -591,6 +619,7 @@ export default function HomePage() {
             <div className="flex gap-6 text-sm text-cr-muted">
               <Link href="/privacy">Privacy</Link>
               <Link href="/terms">Terms</Link>
+              <Link href="/ask">Ask Us</Link>
               <Link href="/contact">Contact</Link>
               <Link href="/leads">Leads</Link>
             </div>

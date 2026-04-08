@@ -14,7 +14,7 @@ const config: Config = {
           surface: '#ffffff',
           border: '#e2e8f0',
           text: '#1e293b',
-          muted: '#64748b',
+          muted: '#475569',
           primary: '#2563eb',
           secondary: '#10b981',
           warning: '#f59e0b',

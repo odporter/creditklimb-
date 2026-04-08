@@ -106,8 +106,13 @@ CREATE POLICY "anyone can read contacts" ON contacts FOR SELECT USING (true);
 1. Create free account at https://tawk.to
 2. Create a property for CreditKlimb
 3. Get your Property ID (looks like `xxxxxxxxxxxx/xxxxxxxx`)
-4. Edit `src/app/layout.tsx` and replace `YOUR_PROPERTY_ID` with your actual ID
-5. Commit and push — Vercel auto-deploys
+4. Add to Vercel:
+```bash
+vercel env add NEXT_PUBLIC_TAWK_ID
+# Paste your ID in format: xxxxxxxxxxxx/xxxxxxxx
+vercel deploy --prod
+```
+   The app conditionally loads the Tawk.to widget only when this env var is set.
 
 ## Stripe Products Created
 
