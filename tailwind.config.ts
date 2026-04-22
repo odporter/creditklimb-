@@ -6,21 +6,20 @@ const config: Config = {
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
         cr: {
-          bg: '#f8fafc',
-          surface: '#ffffff',
-          border: '#e2e8f0',
-          text: '#1e293b',
-          muted: '#475569',
-          primary: '#2563eb',
-          secondary: '#10b981',
-          warning: '#f59e0b',
-          danger: '#ef4444',
-          success: '#22c55e',
+          accent: '#C65D1E',
+          black: '#111111',
+          white: '#ffffff',
+          borderDark: '#3B2F2F',
+          borderLight: '#D8CFC4',
         }
+      },
+      fontFamily: {
+        sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
       },
     },
   },

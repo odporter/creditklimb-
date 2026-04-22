@@ -1,8 +1,9 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { FileText, CreditCard, Send, Lock, ArrowLeft, ArrowRight, CheckCircle, Download, Copy, Building, AlertTriangle, Clock, ChevronDown, ChevronUp } from 'lucide-react'
+import { FileText, CreditCard, Send, Lock, ArrowLeft, ArrowRight, CheckCircle, Download, Copy, Building, AlertTriangle, Clock, ChevronDown, ChevronUp, Loader2 } from 'lucide-react'
 import { Nav } from '@/components/Nav'
 
 const MAJOR_BUREAUS = [
@@ -84,6 +85,35 @@ export default function FullDisputePage() {
   const [selectedFurnisherType, setSelectedFurnisherType] = useState('')
   const [includeEscalation, setIncludeEscalation] = useState(false)
   const [includePayForDelete, setIncludePayForDelete] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const router = useRouter()
+
+  // Entitlement gate — verify purchase before showing content
+  useEffect(() => {
+    const checkEntitlement = async () => {
+      try {
+        const authRes = await fetch('/api/auth/me')
+        const authData = await authRes.json()
+        if (!authData?.user?.email) {
+          router.push('/auth/login')
+          return
+        }
+        const entRes = await fetch(`/api/entitlements/check?email=${encodeURIComponent(authData.user.email)}&product=credit-klimb`)
+        const entData = await entRes.json()
+        if (entRes.ok && entData.has_access) {
+          setPaid(true) // show as paid since they have entitlement
+        } else {
+          router.push('/dispute')
+          return
+        }
+      } catch {
+        router.push('/dispute')
+      } finally {
+        setLoading(false)
+      }
+    }
+    checkEntitlement()
+  }, [router])
   const [disputeType, setDisputeType] = useState('')
   const [showSubBureaus, setShowSubBureaus] = useState(false)
   const [showFurnisher, setShowFurnisher] = useState(false)
@@ -233,6 +263,14 @@ export default function FullDisputePage() {
       a.download = `letter-${i + 1}-${letter.type}.txt`
       a.click()
     })
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-cr-bg flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-cr-primary" />
+      </div>
+    )
   }
 
   return (

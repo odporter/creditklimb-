@@ -2,12 +2,12 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'CreditKlimb™ — Don\'t Just Check Your Credit. Climb It.',
-  description: 'Free credit repair tools, dispute letters, and financial guidance. Fix your credit score yourself with our free tools.',
-  keywords: ['credit repair', 'credit score', 'dispute letters', 'debt management', 'financial tools', 'business credit'],
+  title: 'CreditKlimb™ — Understand Your Credit. Fix What Matters.',
+  description: 'Free credit tools for everyone. Dispute letters, credit analysis, score simulation. No subscriptions. No pressure. Just clarity.',
+  keywords: ['credit repair', 'credit score', 'dispute letters', 'financial tools', 'free credit'],
   openGraph: {
-    title: 'CreditKlimb™ — Don\'t Just Check Your Credit. Climb It.',
-    description: 'Free credit repair tools. Dispute letters, Net30 finder, business credit building. Help people actually improve their credit.',
+    title: 'CreditKlimb™ — Understand Your Credit. Fix What Matters.',
+    description: 'Free credit tools for everyone. No subscriptions. No pressure. Just clarity.',
     type: 'website',
   },
 }
@@ -18,8 +18,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body>
+    <html lang="en" className="dark">
+      <body className="antialiased">
         {children}
         {/* Tawk.to Live Chat — only loads when NEXT_PUBLIC_TAWK_ID is set */}
         {process.env.NEXT_PUBLIC_TAWK_ID && (
