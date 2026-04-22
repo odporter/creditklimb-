@@ -1,122 +1,71 @@
-import Link from 'next/link'
-import { Calculator, FileText, TrendingUp, CreditCard, BookOpen, Download, CheckCircle } from 'lucide-react'
-import { Nav } from '@/components/Nav'
+'use client'
 
-const FREE_TOOLS = [
-  {
-    icon: FileText,
-    title: 'Dispute Letter Generator',
-    description: 'Create professional dispute letters for any credit error. Customize for all three bureaus.',
-    href: '/dispute',
-    free: true,
-  },
-  {
-    icon: Calculator,
-    title: 'Credit Score Calculator',
-    description: 'See how different actions affect your credit score. Plan your repair strategy.',
-    href: '/calculate',
-    free: true,
-  },
-  {
-    icon: TrendingUp,
-    title: 'Score Simulator',
-    description: 'Simulate paying off debts, opening accounts, and other credit actions.',
-    href: '/simulate',
-    free: true,
-  },
-  {
-    icon: CreditCard,
-    title: 'Debt Payoff Planner',
-    description: 'Create a custom debt payoff plan using avalanche or snowball method.',
-    href: '/debt',
-    free: true,
-  },
-  {
-    icon: BookOpen,
-    title: 'Credit Education',
-    description: 'Learn about credit scores, reports, and how to improve them.',
-    href: '/learn',
-    free: true,
-  },
-  {
-    icon: Download,
-    title: 'Template Library',
-    description: 'Download free dispute letter templates for every situation.',
-    href: '/templates',
-    free: true,
-  },
+import Link from 'next/link'
+import { Calculator, FileText, TrendingUp, CreditCard, BookOpen, Download, CheckCircle, ArrowRight } from 'lucide-react'
+
+const TOOLS = [
+  { icon: FileText, title: 'Dispute Letter Generator', desc: 'Generate letters for any bureau, any furnisher, any sub-bureau.', href: '/dispute', free: true },
+  { icon: TrendingUp, title: 'Score Simulator', desc: 'See how different actions affect your score before you act.', href: '/simulate', free: true },
+  { icon: Calculator, title: 'Credit Calculator', desc: 'Debt-to-income ratios, credit utilization, payoff timelines.', href: '/calculate', free: true },
+  { icon: CreditCard, title: 'Debt Payoff Planner', desc: 'Avalanche vs snowball method. See the math.', href: '/debt', free: true },
+  { icon: BookOpen, title: 'Credit Education', desc: 'How credit works, how to read reports, how to improve.', href: '/learn', free: true },
+  { icon: Download, title: 'Template Library', desc: 'Standalone templates for every dispute type.', href: '/templates', free: true },
 ]
 
 export default function ToolsPage() {
   return (
-    <div className="min-h-screen bg-cr-bg">
-      <Nav />
-      
-      <div className="cr-container py-12">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold mb-4">Free Credit Repair Tools</h1>
-          <p className="text-cr-muted text-lg">
-            Everything you need to fix your credit yourself. No credit card required.
-          </p>
+    <div className="min-h-screen" style={{backgroundColor: '#111111', color: '#ffffff'}}>
+      {/* Nav */}
+      <nav className="sticky top-0 z-50 backdrop-blur-md" style={{backgroundColor: 'rgba(17,17,17,0.9)', borderBottom: '1px solid var(--cr-border)'}}>
+        <div className="cr-container py-4 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2">
+            <span className="font-semibold text-sm tracking-tight">CreditKlimb<span className="text-[#C65D1E]">™</span></span>
+          </Link>
+          <div className="flex items-center gap-6">
+            <Link href="/dispute" className="text-sm opacity-50">Dispute</Link>
+            <Link href="/tools" className="text-sm opacity-100 font-medium">Tools</Link>
+            <Link href="/network" className="text-sm opacity-50">Network</Link>
+          </div>
+        </div>
+      </nav>
+
+      <div className="cr-container py-16 max-w-2xl">
+        <div className="mb-12">
+          <p className="text-xs uppercase tracking-widest opacity-40 mb-3">Free Tools</p>
+          <h1 className="text-3xl font-bold tracking-tight mb-3">Everything free.</h1>
+          <p className="text-sm opacity-50">No credit card. No subscription. No paywall. All of it.</p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {FREE_TOOLS.map((tool, i) => (
-            <Link key={i} href={tool.href} className="cr-card hover:border-cr-primary transition-colors group">
-              <div className="w-12 h-12 rounded-lg tint-primary-10 flex items-center justify-center mb-4 group-hover:tint-primary-20 transition-colors">
-                <tool.icon className="text-cr-primary" size={24} />
+        <div className="space-y-3">
+          {TOOLS.map((tool, i) => (
+            <Link
+              key={i}
+              href={tool.href}
+              className="flex items-center justify-between p-6 border transition-all hover:border-[#C65D1E]"
+              style={{borderColor: 'var(--cr-border)'}}
+            >
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-lg border flex items-center justify-center flex-shrink-0" style={{borderColor: 'var(--cr-border)'}}>
+                  <tool.icon size={18} className="opacity-60" />
+                </div>
+                <div>
+                  <div className="font-semibold text-sm mb-0.5">{tool.title}</div>
+                  <div className="text-xs opacity-40">{tool.desc}</div>
+                </div>
               </div>
-              <h3 className="font-semibold mb-2">{tool.title}</h3>
-              <p className="text-cr-muted text-sm mb-3">{tool.description}</p>
-              {tool.free && (
-                <span className="inline-flex items-center gap-1 text-xs text-green-600 font-medium">
-                  <CheckCircle size={14} />
-                  Free Forever
-                </span>
-              )}
+              <ArrowRight size={14} className="opacity-30 flex-shrink-0" />
             </Link>
           ))}
         </div>
 
-        {/* Premium Upsell */}
-        <div className="cr-card bg-gradient-to-r from-cr-primary to-blue-700 text-white">
-          <div className="grid md:grid-cols-2 gap-8 items-center">
-            <div>
-              <h2 className="text-2xl font-bold mb-4">Need Extra Help?</h2>
-              <p className="opacity-90 mb-4">
-                Our free tools handle most credit repair cases. For complex situations,
-                Premium includes professional support.
-              </p>
-              <ul className="space-y-2 mb-6">
-                <li className="flex items-center gap-2">
-                  <CheckCircle size={16} />
-                  Professional letter review
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle size={16} />
-                  Priority processing
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle size={16} />
-                  Dedicated credit advisor
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle size={16} />
-                  Money-back guarantee
-                </li>
-              </ul>
-              <Link href="/premium" className="cr-btn bg-white text-cr-primary hover:bg-gray-100">
-                View Premium Plans
-              </Link>
-            </div>
-            <div className="text-center">
-              <div className="text-5xl font-bold">$29</div>
-              <div className="opacity-80">One-time setup fee</div>
-              <div className="mt-4 text-sm opacity-70">
-                Only if you need extra help
-              </div>
-            </div>
-          </div>
+        <div className="mt-12 border p-8 text-center" style={{borderColor: 'var(--cr-border)'}}>
+          <p className="text-xs uppercase tracking-widest opacity-40 mb-3">LikenessVerified Network</p>
+          <h3 className="font-semibold text-sm mb-2">Want to offer these tools under your own brand?</h3>
+          <p className="text-xs opacity-40 mb-4">White-label. Commission. One verified identity.</p>
+          <Link href="/network" className="cr-btn cr-btn-primary text-xs px-6 py-2">
+            Join the Network
+            <ArrowRight size={12} />
+          </Link>
         </div>
       </div>
     </div>

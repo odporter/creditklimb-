@@ -2,7 +2,6 @@ import Link from 'next/link'
 import {
   Shield,
   ArrowRight,
-  Eye,
   FileText,
   Lock,
   Users,
@@ -10,56 +9,58 @@ import {
   Zap,
   RefreshCw,
   CheckCircle2,
+  Network,
 } from 'lucide-react'
 
 function HeroSection() {
   return (
     <section className="py-24 md:py-32">
       <div className="cr-container">
-        {/* Pre-headline badge */}
         <div className="flex items-center justify-center gap-2 mb-8">
-          <span className="inline-block w-2 h-2 rounded-full bg-[#C65D1E] animate-pulse" />
-          <span className="text-sm tracking-wide opacity-50 uppercase text-sm">Powered by LikenessVerified™</span>
+          <span className="inline-block w-2 h-2 rounded-full bg-[#C65D1E] animate-pulse-dot" />
+          <span className="text-xs tracking-widest opacity-40 uppercase">Powered by LikenessVerified™</span>
         </div>
 
-        {/* Headline */}
         <h1 className="cr-headline text-center mb-6">
-          Understand your credit.
+          The credit industry
           <br />
-          <span className="text-[#C65D1E]">Fix what matters.</span>
+          <span className="text-[#C65D1E]">built wrong.</span>
+          <br />
+          We built it free.
         </h1>
 
-        {/* Subtext */}
         <p className="cr-subheadline text-center max-w-xl mx-auto mb-10">
-          No subscriptions. No pressure. Just clarity.
+          Dispute letters for every bureau. Sub-bureaus. Furnishers.
           <br />
-          The credit tool built for everyone — not just the ones who can afford it.
+          No paywall. No subscription. No catch.
+          <br />
+          Join the LikenessVerified network — it's the only membership that matters.
         </p>
 
-        {/* CTAs */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-          <Link href="/tools" className="cr-btn cr-btn-primary text-base px-8 py-4">
-            Start Now
+          <Link href="/dispute" className="cr-btn cr-btn-primary text-base px-8 py-4">
+            Generate Free Letters
             <ArrowRight size={16} />
           </Link>
-          <Link href="/dispute" className="cr-btn cr-btn-outline text-base px-8 py-4">
-            Generate Letters
+          <Link href="/network" className="cr-btn cr-btn-outline text-base px-8 py-4">
+            Join the Network
           </Link>
         </div>
 
-        {/* Trust line */}
-        <div className="flex flex-wrap items-center justify-center gap-6 text-sm opacity-40">
-          <div className="flex items-center gap-2">
-            <Lock size={12} />
-            <span>Private</span>
-          </div>
+        <div className="flex flex-wrap items-center justify-center gap-6 text-xs opacity-30">
           <div className="flex items-center gap-2">
             <CheckCircle2 size={12} />
-            <span>FCRA-Compliant</span>
+            <span>Equifax · Experian · TransUnion</span>
           </div>
+          <span>·</span>
           <div className="flex items-center gap-2">
-            <Users size={12} />
-            <span>For Everyone</span>
+            <CheckCircle2 size={12} />
+            <span>LexisNexis · ChexSystems · FactorTrust</span>
+          </div>
+          <span>·</span>
+          <div className="flex items-center gap-2">
+            <CheckCircle2 size={12} />
+            <span>Furnishers · Medical · Utilities</span>
           </div>
         </div>
       </div>
@@ -69,17 +70,19 @@ function HeroSection() {
 
 function TruthSection() {
   return (
-    <section className="py-20 border-t border-b" style={{borderColor: 'var(--cr-border-dark)'}}>
+    <section className="py-20 border-y" style={{borderColor: 'var(--cr-border)'}}>
       <div className="cr-container">
         <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-xl font-semibold mb-6 tracking-tight">
-            The credit industry profits off confusion.
+          <h2 className="text-xl font-semibold mb-6">
+            The game is rigged against people who don't know the rules.
           </h2>
-          <p className="text-base leading-relaxed opacity-60 mb-6">
-            Most credit services hide behind complexity. They charge monthly fees to do what you could do yourself — if you had the right tools. We built those tools. And we're making them free.
+          <p className="text-sm leading-relaxed opacity-60 mb-6">
+            Credit repair companies charge $100–$500/month to send the same letters you could generate here in 5 minutes. They profit because most people don't know the law — or don't know they can do it themselves.
           </p>
-          <p className="text-base leading-relaxed font-medium">
-            Now anyone can understand their credit. Fix their credit. Own their financial future.
+          <p className="text-sm leading-relaxed opacity-60">
+            CreditKlimb breaks that. Every letter. Every bureau. Every sub-bureau. Free.
+            <br />
+            And when you're ready to join something bigger — verify your identity through LikenessVerified and step into the network.
           </p>
         </div>
       </div>
@@ -87,35 +90,35 @@ function TruthSection() {
   )
 }
 
-function ToolsGrid() {
+function ToolsSection() {
   const tools = [
     {
       icon: FileText,
-      title: 'Dispute Letters',
-      desc: 'Generate professional dispute letters for any credit error. Free.',
+      title: 'Dispute Letter Generator',
+      desc: 'Generate letters for any bureau, any furnisher, any sub-bureau. Free.',
       href: '/dispute',
-      badge: 'Free',
-    },
-    {
-      icon: Eye,
-      title: 'Credit Analyzer',
-      desc: 'Drop your report. Get a breakdown of what\'s hurting you and why.',
-      href: '/tools',
-      badge: 'Free',
+      tag: 'Free',
     },
     {
       icon: RefreshCw,
       title: 'Score Simulator',
-      desc: 'See how paying debts, removing items, and more affects your score.',
+      desc: 'See how paying debts, removing items, and more affects your score before you act.',
       href: '/simulate',
-      badge: 'Free',
+      tag: 'Free',
     },
     {
       icon: Zap,
-      title: 'Instant Report',
-      desc: 'Get your free credit reports from all 3 bureaus. Right now.',
+      title: 'Free Credit Reports',
+      desc: 'Get your free reports from all 3 bureaus. Official source only.',
       href: '/leads',
-      badge: 'Free',
+      tag: 'Free',
+    },
+    {
+      icon: Network,
+      title: 'Sub-Bureau Disputes',
+      desc: 'LexisNexis, ChexSystems, FactorTrust, TeleCheck — the bureaus they don\'t tell you about.',
+      href: '/sub-bureau-disputes',
+      tag: 'Free',
     },
   ]
 
@@ -123,8 +126,9 @@ function ToolsGrid() {
     <section className="py-24">
       <div className="cr-container">
         <div className="mb-12">
-          <p className="text-xs uppercase tracking-widest opacity-40 mb-3">Core Tools</p>
-          <h2 className="cr-section-title">Everything free. No barriers.</h2>
+          <p className="text-xs uppercase tracking-widest opacity-40 mb-3">Free Tools</p>
+          <h2 className="cr-section-title">Everything free. No paywall.</h2>
+          <p className="text-sm opacity-50 mt-2">No credit card. No subscription. No "unlock premium."</p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-4">
@@ -133,46 +137,53 @@ function ToolsGrid() {
               key={i}
               href={tool.href}
               className="group p-8 border transition-all duration-150 hover:border-[#C65D1E]"
-              style={{borderColor: 'var(--cr-border-dark)'}}
+              style={{borderColor: 'var(--cr-border)'}}
             >
               <div className="flex items-start justify-between mb-4">
-                <div className="w-10 h-10 rounded-lg flex items-center justify-center border" style={{borderColor: 'var(--cr-border-dark)'}}>
-                  <tool.icon size={18} className="opacity-70" />
+                <div className="w-10 h-10 rounded-lg border flex items-center justify-center" style={{borderColor: 'var(--cr-border)'}}>
+                  <tool.icon size={18} className="opacity-60" />
                 </div>
-                <span className="cr-badge cr-badge-accent text-xs">{tool.badge}</span>
+                <span className="cr-badge cr-badge-accent text-xs">{tool.tag}</span>
               </div>
               <h3 className="font-semibold text-base mb-2 group-hover:text-[#C65D1E] transition-colors">{tool.title}</h3>
-              <p className="text-sm opacity-50 leading-relaxed">{tool.desc}</p>
+              <p className="text-sm opacity-40 leading-relaxed">{tool.desc}</p>
             </Link>
           ))}
+        </div>
+
+        <div className="mt-8 text-center">
+          <Link href="/tools" className="cr-btn cr-btn-outline text-sm">
+            View All Free Tools
+            <ChevronRight size={14} />
+          </Link>
         </div>
       </div>
     </section>
   )
 }
 
-function EcosystemSection() {
+function NetworkSection() {
   return (
-    <section className="py-24 border-t" style={{borderColor: 'var(--cr-border-dark)'}}>
+    <section className="py-24 border-t" style={{borderColor: 'var(--cr-border)'}}>
       <div className="cr-container">
         <div className="grid md:grid-cols-2 gap-16 items-center">
-          {/* Left: Text */}
           <div>
-            <p className="text-xs uppercase tracking-widest opacity-40 mb-4">The Ecosystem</p>
+            <p className="text-xs uppercase tracking-widest opacity-40 mb-4">The Network</p>
             <h2 className="cr-section-title mb-6">
-              Sell it. Share it.
+              LikenessVerified
               <br />
-              Build with it.
+              is the membership.
             </h2>
             <p className="text-sm opacity-60 leading-relaxed mb-6">
-              CreditKlimb is built on the LikenessVerified™ infrastructure — the same identity layer powering tools across the Porterful ecosystem. That means:
+              CreditKlimb is free for everyone. But the people who verify their identity through LikenessVerified? They're in the network. They can resell it. White-label it. Offer it as a service. Earn from it.
             </p>
             <ul className="space-y-3 mb-8">
               {[
-                'Resell CreditKlimb as your own tool',
-                'White-label for your brand',
-                'Earn commission on every user you bring in',
-                'Access the full Likeness identity stack',
+                'Resell CreditKlimb tools under your own brand',
+                'White-label for your clients',
+                'Commission on every user you bring in',
+                'Access the full LikenessVerified identity stack',
+                'One verified identity — every Porterful ecosystem tool',
               ].map((item, i) => (
                 <li key={i} className="flex items-center gap-3 text-sm">
                   <CheckCircle2 size={14} className="text-[#C65D1E] flex-shrink-0" />
@@ -180,33 +191,38 @@ function EcosystemSection() {
                 </li>
               ))}
             </ul>
-            <Link href="/affiliate" className="cr-btn cr-btn-outline text-sm">
-              Join the Ecosystem
-              <ChevronRight size={14} />
-            </Link>
+            <div className="flex gap-4">
+              <Link href="/network" className="cr-btn cr-btn-primary text-sm">
+                Join the Network
+                <ChevronRight size={14} />
+              </Link>
+              <Link href="/dispute" className="cr-btn cr-btn-outline text-sm">
+                Start Free First
+              </Link>
+            </div>
           </div>
 
-          {/* Right: Visual */}
-          <div className="border p-8" style={{borderColor: 'var(--cr-border-dark)'}}>
+          <div className="border p-8" style={{borderColor: 'var(--cr-border)'}}>
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-8 h-8 rounded-full border flex items-center justify-center" style={{borderColor: 'var(--cr-border-dark)'}}>
+              <div className="w-8 h-8 rounded-full border flex items-center justify-center" style={{borderColor: 'var(--cr-border)'}}>
                 <Shield size={14} className="opacity-50" />
               </div>
-              <span className="text-sm font-medium">CreditKlimb™</span>
+              <span className="text-sm font-medium">LikenessVerified™ Network</span>
             </div>
-            <div className="space-y-3">
+            <div className="space-y-1">
               {[
-                { label: 'Users', value: 'Active daily' },
-                { label: 'Letters generated', value: 'Today' },
-                { label: 'Ecosystem partners', value: 'Growing' },
+                { label: 'Verified members', value: 'Growing' },
+                { label: 'Products in network', value: '7 active' },
+                { label: 'Your commission', value: '3% – 20%' },
+                { label: 'Identity verification', value: 'Required' },
               ].map((stat, i) => (
-                <div key={i} className="flex justify-between items-center py-2 border-b" style={{borderColor: 'var(--cr-border-dark)'}}>
-                  <span className="text-sm opacity-50">{stat.label}</span>
-                  <span className="text-sm font-mono">{stat.value}</span>
+                <div key={i} className="flex justify-between items-center py-3 border-b" style={{borderColor: 'var(--cr-border)'}}>
+                  <span className="text-sm opacity-40">{stat.label}</span>
+                  <span className="text-sm font-mono font-medium">{stat.value}</span>
                 </div>
               ))}
             </div>
-            <p className="text-xs opacity-30 mt-6 text-center">Infrastructure shared with Porterful ecosystem</p>
+            <p className="text-xs opacity-25 mt-6 text-center">One identity. Every tool. Every network.</p>
           </div>
         </div>
       </div>
@@ -214,32 +230,28 @@ function EcosystemSection() {
   )
 }
 
-function BureausSection() {
-  const bureaus = [
-    { name: 'Equifax', type: 'Primary' },
-    { name: 'Experian', type: 'Primary' },
-    { name: 'TransUnion', type: 'Primary' },
-    { name: 'LexisNexis', type: 'Sub-bureau' },
-    { name: 'ChexSystems', type: 'Sub-bureau' },
-  ]
+function BureauSection() {
+  const primary = ['Equifax', 'Experian', 'TransUnion']
+  const sub = ['LexisNexis', 'ChexSystems', 'FactorTrust', 'MicroBilt', 'TeleCheck', 'Early Warning']
 
   return (
-    <section className="py-20 border-t" style={{borderColor: 'var(--cr-border-dark)'}}>
+    <section className="py-20 border-t" style={{borderColor: 'var(--cr-border)'}}>
       <div className="cr-container">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-          <div>
-            <p className="text-xs uppercase tracking-widest opacity-40 mb-3">Coverage</p>
-            <h2 className="cr-section-title">All bureaus. All sub-bureaus.</h2>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            {bureaus.map((b, i) => (
-              <div key={i} className="cr-badge cr-badge-dark text-sm px-4 py-2">
-                <span className="font-medium">{b.name}</span>
-                <span className="opacity-50 text-xs ml-2">{b.type}</span>
-              </div>
-            ))}
-          </div>
+        <div className="text-center mb-10">
+          <p className="text-xs uppercase tracking-widest opacity-40 mb-3">Coverage</p>
+          <h2 className="cr-section-title">Every bureau. Free.</h2>
         </div>
+        <div className="flex flex-wrap justify-center gap-3 mb-6">
+          {primary.map((b, i) => (
+            <div key={i} className="cr-badge cr-badge-dark px-4 py-2">{b}</div>
+          ))}
+        </div>
+        <div className="flex flex-wrap justify-center gap-2">
+          {sub.map((b, i) => (
+            <div key={i} className="cr-badge cr-badge-dark text-xs px-3 py-1.5 opacity-60">{b}</div>
+          ))}
+        </div>
+        <p className="text-xs opacity-25 text-center mt-6">All included in free tools — no premium tier</p>
       </div>
     </section>
   )
@@ -249,18 +261,20 @@ function CTASection() {
   return (
     <section className="py-24">
       <div className="cr-container">
-        <div className="border text-center p-16" style={{borderColor: 'var(--cr-border-dark)'}}>
+        <div className="border text-center p-16" style={{borderColor: 'var(--cr-border)'}}>
           <h2 className="cr-headline text-xl mb-4">Stop paying for what you can do yourself.</h2>
           <p className="cr-subheadline mb-8 max-w-md mx-auto">
-            Your credit. Your tools. Your future.
+            Your credit. Your letters. Your future.
+            <br />
+            The network is there when you're ready.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/tools" className="cr-btn cr-btn-primary px-10 py-4">
-              Use the Tools — It's Free
+            <Link href="/dispute" className="cr-btn cr-btn-primary px-10 py-4">
+              Generate Free Letters
               <ArrowRight size={16} />
             </Link>
-            <Link href="/affiliate" className="cr-btn cr-btn-outline px-10 py-4">
-              Join the Ecosystem
+            <Link href="/network" className="cr-btn cr-btn-outline px-10 py-4">
+              Join the Network
             </Link>
           </div>
         </div>
@@ -271,7 +285,7 @@ function CTASection() {
 
 function MinimalNav() {
   return (
-    <nav className="sticky top-0 z-50 backdrop-blur-md" style={{backgroundColor: 'rgba(17,17,17,0.8)', borderBottom: '1px solid var(--cr-border-dark)'}}>
+    <nav className="sticky top-0 z-50 backdrop-blur-md" style={{backgroundColor: 'rgba(17,17,17,0.85)', borderBottom: '1px solid var(--cr-border)'}}>
       <div className="cr-container py-4 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
           <Shield size={18} className="text-[#C65D1E]" />
@@ -282,12 +296,12 @@ function MinimalNav() {
           <Link href="/tools" className="text-sm opacity-50 hover:opacity-100 transition-opacity">Tools</Link>
           <Link href="/dispute" className="text-sm opacity-50 hover:opacity-100 transition-opacity">Dispute</Link>
           <Link href="/learn" className="text-sm opacity-50 hover:opacity-100 transition-opacity">Learn</Link>
-          <Link href="/affiliate" className="text-sm opacity-50 hover:opacity-100 transition-opacity">Ecosystem</Link>
+          <Link href="/network" className="text-sm opacity-50 hover:opacity-100 transition-opacity">Network</Link>
         </div>
 
         <div className="flex items-center gap-4">
-          <Link href="/tools" className="cr-btn cr-btn-primary text-xs px-4 py-2">
-            Start Free
+          <Link href="/dispute" className="cr-btn cr-btn-primary text-xs px-4 py-2">
+            Free Letters
           </Link>
         </div>
       </div>
@@ -301,13 +315,12 @@ export default function HomePage() {
       <MinimalNav />
       <HeroSection />
       <TruthSection />
-      <ToolsGrid />
-      <EcosystemSection />
-      <BureausSection />
+      <ToolsSection />
+      <NetworkSection />
+      <BureauSection />
       <CTASection />
 
-      {/* Footer */}
-      <footer className="py-12 border-t" style={{borderColor: 'var(--cr-border-dark)'}}>
+      <footer className="py-12 border-t" style={{borderColor: 'var(--cr-border)'}}>
         <div className="cr-container">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-2">
@@ -318,8 +331,9 @@ export default function HomePage() {
               <Link href="/privacy">Privacy</Link>
               <Link href="/terms">Terms</Link>
               <Link href="/ask">Ask</Link>
+              <Link href="/network">Network</Link>
             </div>
-            <p className="text-xs opacity-30">© {new Date().getFullYear()} CreditKlimb™ — Built on LikenessVerified™</p>
+            <p className="text-xs opacity-25">© {new Date().getFullYear()} CreditKlimb™ — Part of the LikenessVerified™ network</p>
           </div>
         </div>
       </footer>

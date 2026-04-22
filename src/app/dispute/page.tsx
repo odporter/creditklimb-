@@ -1,455 +1,505 @@
 'use client'
 
-import { Nav } from '@/components/Nav'
-import { FileText, CreditCard, Send, CheckCircle, Shield, ArrowRight, Clock, AlertTriangle, Building } from 'lucide-react'
+import { useState } from 'react'
 import Link from 'next/link'
+import { FileText, CreditCard, Send, CheckCircle, Shield, ArrowRight, AlertTriangle, Building, ChevronDown, ChevronUp, Copy, Download } from 'lucide-react'
 
 const BUREAUS = [
-  { 
-    id: 'equifax', 
-    name: 'Equifax', 
-    address: 'P.O. Box 740256, Atlanta, GA 30374',
-    phone: '1-800-525-6285',
-    website: 'equifax.com',
-    reportCode: 'EQUIFAX'
-  },
-  { 
-    id: 'experian', 
-    name: 'Experian', 
-    address: 'P.O. Box 4500, Allen, TX 75013',
-    phone: '1-888-397-3742',
-    website: 'experian.com',
-    reportCode: 'EXPERIAN'
-  },
-  { 
-    id: 'transunion', 
-    name: 'TransUnion', 
-    address: 'P.O. Box 2000, Chester, PA 19016',
-    phone: '1-800-916-8800',
-    website: 'transunion.com',
-    reportCode: 'TRANSUNION'
-  },
+  { id: 'equifax', name: 'Equifax', address: 'P.O. Box 740256, Atlanta, GA 30374', phone: '1-800-525-6285' },
+  { id: 'experian', name: 'Experian', address: 'P.O. Box 4500, Allen, TX 75013', phone: '1-888-397-3742' },
+  { id: 'transunion', name: 'TransUnion', address: 'P.O. Box 2000, Chester, PA 19016', phone: '1-800-916-8800' },
 ]
 
 const SUB_BUREAUS = [
-  { 
-    id: 'lexisnexis', 
-    name: 'LexisNexis', 
-    address: 'P.O. Box 105, Atlanta, GA 30348',
-    phone: '1-800-456-6004',
-    description: 'Used by insurers, employers, and landlords for background checks',
-    category: 'Background Check'
-  },
-  { 
-    id: 'chexsystems', 
-    name: 'ChexSystems', 
-    address: 'P.O. Box 105, Minneapolis, MN 55480',
-    phone: '1-800-977-7284',
-    description: 'Bank account history and consumer banking reports',
-    category: 'Banking'
-  },
-  { 
-    id: 'factortrust', 
-    name: 'FactorTrust', 
-    address: 'P.O. Box 851, Atlanta, GA 30301',
-    phone: '1-855-366-2727',
-    description: 'Alternative credit data for short-term lending decisions',
-    category: 'Alternative Credit'
-  },
-  { 
-    id: 'microbilt', 
-    name: 'MicroBilt', 
-    address: 'P.O. Box 968, Atlanta, GA 30301',
-    phone: '1-800-884-4744',
-    description: 'Consumer credit reports for alternative lending',
-    category: 'Alternative Credit'
-  },
-  { 
-    id: 'earlywarning', 
-    name: 'Early Warning Services', 
-    address: 'P.O. Box 2187, Omaha, NE 68103',
-    phone: '1-800-745-7994',
-    description: 'Cash正向 deposit account verification and fraud prevention',
-    category: 'Banking'
-  },
-  { 
-    id: 'teledata', 
-    name: 'TeleCheck', 
-    address: 'P.O. Box 5589, Louisville, KY 40255',
-    phone: '1-800-537-5424',
-    description: 'Check writing history and banking history',
-    category: 'Banking'
-  },
-  { 
-    id: 'global', 
-    name: 'Global Payments', 
-    address: 'P.O. Box 511689, Los Angeles, CA 90051',
-    phone: '1-800-367-0774',
-    description: 'Check and payment history for merchants',
-    category: 'Payment History'
-  },
+  { id: 'lexisnexis', name: 'LexisNexis', address: 'P.O. Box 105, Atlanta, GA 30348', phone: '1-800-456-6004', description: 'Background checks for employment, housing, insurance' },
+  { id: 'chexsystems', name: 'ChexSystems', address: 'P.O. Box 105, Minneapolis, MN 55480', phone: '1-800-977-7284', description: 'Bank account history and consumer banking reports' },
+  { id: 'factortrust', name: 'FactorTrust', address: 'P.O. Box 851, Atlanta, GA 30301', phone: '1-855-366-2727', description: 'Alternative credit data for short-term lending decisions' },
+  { id: 'microbilt', name: 'MicroBilt', address: 'P.O. Box 968, Atlanta, GA 30301', phone: '1-800-884-4744', description: 'Consumer credit reports for alternative lending' },
+  { id: 'telecheck', name: 'TeleCheck', address: 'P.O. Box 5589, Louisville, KY 40255', phone: '1-800-537-5424', description: 'Check writing history and banking history' },
 ]
 
 const FURNISHER_CATEGORIES = [
-  {
-    id: 'bank',
-    name: 'Banks & Credit Unions',
-    examples: 'Chase, Bank of America, Wells Fargo, Capital One, US Bank',
-    letterType: 'Furnisher Dispute'
-  },
-  {
-    id: 'credit-card',
-    name: 'Credit Card Companies',
-    examples: 'Discover, American Express, Citi, Synchrony, Barclays',
-    letterType: 'Furnisher Dispute'
-  },
-  {
-    id: 'auto',
-    name: 'Auto Finance',
-    examples: 'Toyota Financial, Honda Financial, Ally Financial, GM Financial',
-    letterType: 'Furnisher Dispute'
-  },
-  {
-    id: 'mortgage',
-    name: 'Mortgage Servicers',
-    examples: 'LoanDepot, Mr. Cooper, Nationstar, Shellpoint',
-    letterType: 'Furnisher Dispute'
-  },
-  {
-    id: 'collection',
-    name: 'Collection Agencies',
-    examples: 'Portfolio Recovery, Midland Credit, LVNV, Creditors Financial',
-    letterType: 'Debt Validation + Furnisher Notice'
-  },
-  {
-    id: 'medical',
-    name: 'Medical Providers',
-    examples: 'Hospitals, doctor\'s offices, labs, pharmacies',
-    letterType: 'Medical Dispute + Furnisher Notice'
-  },
-  {
-    id: 'utility',
-    name: 'Utilities & Telecom',
-    examples: 'AT&T, Comcast, Verizon, water, electric, gas companies',
-    letterType: 'Utility Dispute'
-  },
-  {
-    id: 'tenant',
-    name: 'Landlords',
-    examples: 'Property management companies, housing authorities',
-    letterType: 'Landlord Reference'
-  },
+  { id: 'bank', name: 'Banks & Credit Unions', examples: 'Chase, Bank of America, Wells Fargo, Capital One' },
+  { id: 'collection', name: 'Collection Agencies', examples: 'Portfolio Recovery, Midland Credit, LVNV, Creditors Financial' },
+  { id: 'medical', name: 'Medical Providers', examples: 'Hospitals, doctor\'s offices, labs, pharmacies' },
+  { id: 'auto', name: 'Auto Finance', examples: 'Toyota Financial, Honda Financial, Ally Financial' },
+  { id: 'utility', name: 'Utilities & Telecom', examples: 'AT&T, Comcast, Verizon, water, electric' },
 ]
 
-const PRICING_TIERS = [
-  {
-    id: 'starter',
-    name: 'Starter',
-    price: 1,
-    description: 'Try it out. Get 1 bureau dispute letter.',
-    features: [
-      '1 dispute letter (your choice of bureau)',
-      'Professional formatting',
-      'Step-by-step instructions',
-      'Certified mail guidance',
-    ],
-    popular: false,
-  },
-  {
-    id: 'full',
-    name: 'Full Repair',
-    price: 29,
-    description: 'Everything you need to fix your report.',
-    features: [
-      'Unlimited bureau dispute letters',
-      'All 3 major bureaus (Equifax, Experian, TransUnion)',
-      'Furnisher dispute letters',
-      'All sub-bureaus (LexisNexis, ChexSystems, etc.)',
-      'Pay-for-delete templates',
-      '60-day escalation letters',
-      'Email support',
-    ],
-    popular: true,
-  },
-  {
-    id: 'mail-service',
-    name: 'We Handle It',
-    price: 49,
-    description: 'We print, sign, and mail everything for you.',
-    features: [
-      'Everything in Full Repair',
-      'We mail to ALL bureaus and sub-bureaus',
-      'We mail to furnisher directly',
-      'Certified mail with tracking',
-      'Escalation letters at 30 and 60 days',
-      'Dedicated advisor',
-      'Money-back guarantee',
-    ],
-    popular: false,
-  },
+const DISPUTE_TYPES = [
+  { id: 'late', label: 'Late Payments', desc: 'Payments that were 30/60/90/120 days late' },
+  { id: 'collection', label: 'Collections', desc: 'Accounts sent to collection agencies' },
+  { id: 'chargeoff', label: 'Charge-Offs', desc: 'Accounts written off by the lender' },
+  { id: 'identity', label: 'Identity Theft', desc: 'Accounts or inquiries you didn\'t authorize' },
+  { id: 'wrong', label: 'Wrong Information', desc: 'Incorrect balances, dates, or account details' },
+  { id: 'duplicate', label: 'Duplicate Accounts', desc: 'Same account listed multiple times' },
+  { id: 'inquiry', label: 'Unauthorized Inquiries', desc: 'Hard inquiries you didn\'t approve' },
+  { id: 'medical', label: 'Medical Bills', desc: 'Medical collections and billing errors' },
 ]
+
+function generateBureauLetter(params: { name: string; address: string; city: string; state: string; zip: string; accountNumber: string; bureauName: string; bureauAddress: string; disputeType: string; reason: string }) {
+  return `${params.name}
+${params.address}
+${params.city}, ${params.state} ${params.zip}
+
+${params.bureauName}
+${params.bureauAddress}
+
+${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+
+RE: Dispute of Inaccurate Information — Account #${params.accountNumber}
+
+To Whom It May Concern:
+
+I am writing to formally dispute the following account currently appearing on my credit report with ${params.bureauName}. After reviewing my credit report, I have identified information that is inaccurate and/or unverifiable.
+
+Account Information in Dispute:
+- Account Holder: ${params.name}
+- Account Number: ${params.accountNumber}
+- Type of Dispute: ${params.disputeType}
+- Reason for Dispute: ${params.reason}
+
+Please investigate this matter and correct any inaccurate information in accordance with the Fair Credit Reporting Act (FCRA), specifically Section 611.
+
+Under the FCRA, you are required to:
+1. Investigate the disputed information within 30 days
+2. Review all relevant information provided by me
+3. Remove or correct any information that is inaccurate or cannot be verified
+4. Notify all parties who received my credit report of the correction
+
+I request that you remove this inaccurate information from my credit file and provide written confirmation of the action taken.
+
+If the information cannot be verified, it must be deleted from my credit report. I reserve all rights under the FCRA, including the right to pursue legal action if my rights are violated.
+
+Please respond in writing within 30 days of receiving this letter.
+
+Sincerely,
+
+${params.name}
+${params.address}
+${params.city}, ${params.state} ${params.zip}
+Phone: ${params.zip}
+Email: ${params.zip}@email.com`
+}
+
+function generateSubBureauLetter(params: { name: string; address: string; city: string; state: string; zip: string; accountNumber: string; bureauName: string; bureauAddress: string; description: string }) {
+  return `${params.name}
+${params.address}
+${params.city}, ${params.state} ${params.zip}
+
+${params.bureauName}
+${params.bureauAddress}
+
+${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+
+RE: Consumer Dispute — Account #${params.accountNumber}
+
+To Whom It May Concern:
+
+I am writing to dispute information contained in my consumer report maintained by ${params.bureauName}. ${params.description}
+
+Personal Information:
+- Full Name: ${params.name}
+- Address: ${params.address}, ${params.city}, ${params.state} ${params.zip}
+- Date of Birth: [Your DOB]
+- Social Security Number: [Last 4: XXXX]
+
+Account in Dispute:
+- Account Number: ${params.accountNumber}
+- Reported by: [Original Furnisher Name]
+
+I believe this information is inaccurate and request a full investigation under the FCRA. Please verify that the information reported is accurate and complete. If it cannot be verified, it must be removed.
+
+I request written confirmation of the results of your investigation within 30 days.
+
+Sincerely,
+
+${params.name}
+${params.address}
+${params.city}, ${params.state} ${params.zip}`
+}
+
+function generateFurnisherLetter(params: { name: string; address: string; city: string; state: string; zip: string; furnisherName: string; furnisherAddress: string; accountNumber: string; bureauName: string; disputeType: string; reason: string }) {
+  return `${params.name}
+${params.address}
+${params.city}, ${params.state} ${params.zip}
+
+${params.furnisherName}
+${params.furnisherAddress}
+
+${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+
+RE: FCRA Furnisher Notice — Account #${params.accountNumber}
+
+To ${params.furnisherName}:
+
+I am writing to notify you that I have disputed the following account with ${params.bureauName}, which was reported by your organization.
+
+Account Information:
+- Account Holder: ${params.name}
+- Account Number: ${params.accountNumber}
+- Account Type: ${params.disputeType}
+- Bureau Reported To: ${params.bureauName}
+
+Under the Fair Credit Reporting Act, Section 623, you are required to:
+1. Investigate and correct any inaccurate information within 30 days of receiving this notice
+2. Report the results of your investigation to the credit bureau
+3. If the information is inaccurate or cannot be verified, correct or delete it
+
+If you fail to respond or correct inaccurate information within 30 days, you may be subject to civil liability under the FCRA.
+
+Please investigate and respond in writing within 30 days.
+
+Sincerely,
+
+${params.name}
+${params.address}
+${params.city}, ${params.state} ${params.zip}`
+}
 
 export default function DisputePage() {
-  const ARR_0 = [
-              {
-                q: 'Is credit repair legal?',
-                a: 'Yes. The Fair Credit Reporting Act (FCRA) gives you the legal right to dispute inaccurate information on your credit report. Credit repair companies have been operating legally since 1996.'
-              },
-              {
-                q: 'How long does credit repair take?',
-                a: 'Typically 3-6 months to see significant changes. The bureaus have 30 days to respond to disputes. If items are removed, they usually fall off within 1-2 billing cycles.'
-              },
-              {
-                q: 'What\'s the difference between bureau and furnisher disputes?',
-                a: 'Bureau disputes go to Equifax, Experian, or TransUnion. Furnisher disputes go directly to the bank or lender who reported the information. Both are important — furnisher notices often get faster results.'
-              },
-              {
-                q: 'What are sub-bureaus?',
-                a: 'Sub-bureaus like LexisNexis, ChexSystems, and FactorTrust collect information beyond what\'s on your credit score. Landlords, employers, insurers, and banks often check these reports. Negative items on sub-bureaus can block housing, jobs, and loans even when your credit score looks fine.'
-              },
-              {
-                q: 'What\'s pay-for-delete?',
-                a: 'Pay-for-delete is when you negotiate with a collection agency to remove the negative item from your report in exchange for paying the debt. We provide the exact letter templates and negotiation scripts to use.'
-              },
-              {
-                q: 'Do you guarantee results?',
-                a: 'We can\'t guarantee specific items will be removed — that\'s up to the bureaus and furnishers. What we guarantee is that we\'ll file everything properly, follow up at the right times, and escalate when required by law.'
-              },
-            ];
+  const [step, setStep] = useState<'menu' | 'bureau' | 'sub' | 'furnisher'>('menu')
+  const [form, setForm] = useState({
+    name: '', address: '', city: '', state: '', zip: '', accountNumber: '',
+    bureauId: 'equifax', subBureauId: 'lexisnexis', furnisherName: '', furnisherAddress: '',
+    disputeType: 'late', reason: ''
+  })
+  const [letter, setLetter] = useState('')
+  const [copied, setCopied] = useState(false)
+  const [expandedFaq, setExpandedFaq] = useState<number | null>(null)
 
-return (
-    <div className="min-h-screen bg-cr-bg">
-      <Nav />
-      
-      {/* Free Reports CTA */}
-      <section className="py-8 bg-yellow-50 border-bottom border-yellow-200">
-        <div className="cr-container">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div>
-              <div className="text-sm font-medium text-yellow-800 mb-1">Before you dispute — get your reports</div>
-              <h3 className="text-lg font-bold text-yellow-900">You need to know what's on your report first</h3>
-              <p className="text-sm text-yellow-700">Get free reports from all 3 bureaus at AnnualCreditReport.com — the only official government-recognized source.</p>
-            </div>
-            <a 
-              href="https://www.annualcreditreport.com" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="px-6 py-3 bg-yellow-500 text-yellow-900 font-bold rounded-lg hover:bg-yellow-400 transition-colors whitespace-nowrap"
-            >
-              Get Free Reports →
-            </a>
+  const bureaus = BUREAUS
+  const subBureaus = SUB_BUREAUS
+
+  const faqs = [
+    { q: 'Is this really free?', a: 'Yes. Every letter. Every bureau. No credit card. No subscription. No "unlock premium." We built it free because the people who need it most often can least afford to pay.' },
+    { q: 'Why do I need to dispute with sub-bureaus too?', a: 'Most people only check the big 3 bureaus (Equifax, Experian, TransUnion). But landlords, employers, insurers, and banks also check LexisNexis, ChexSystems, and others. Negative items on sub-bureaus can block housing, jobs, and loans even when your credit score looks fine.' },
+    { q: 'What\'s a furnisher notice?', a: 'A furnisher is the bank, lender, or collection agency that reported the information to the credit bureau. Under the FCRA, when you dispute with a bureau, the bureau forwards your dispute to the furnisher — but sending a furnisher notice directly puts legal pressure on the source. If they don\'t respond within 30 days, they\'re in violation of the FCRA.' },
+    { q: 'Do I need to be verified to use this?', a: 'No. CreditKlimb is free for everyone, regardless of identity verification status. But if you join the LikenessVerified network, you get access to white-label tools, commission on referrals, and the full ecosystem. That\'s optional.' },
+  ]
+
+  function buildBureauLetter() {
+    const bureau = bureaus.find(b => b.id === form.bureauId)!
+    const typeLabel = DISPUTE_TYPES.find(t => t.id === form.disputeType)?.label || form.disputeType
+    const l = generateBureauLetter({
+      name: form.name, address: form.address, city: form.city, state: form.state, zip: form.zip,
+      accountNumber: form.accountNumber, bureauName: bureau.name, bureauAddress: bureau.address,
+      disputeType: typeLabel, reason: form.reason
+    })
+    setLetter(l)
+  }
+
+  function buildSubBureauLetter() {
+    const bureau = subBureaus.find(b => b.id === form.subBureauId)!
+    const l = generateSubBureauLetter({
+      name: form.name, address: form.address, city: form.city, state: form.state, zip: form.zip,
+      accountNumber: form.accountNumber, bureauName: bureau.name, bureauAddress: bureau.address,
+      description: bureau.description
+    })
+    setLetter(l)
+  }
+
+  function buildFurnisherLetter() {
+    const bureau = bureaus.find(b => b.id === form.bureauId)!
+    const typeLabel = DISPUTE_TYPES.find(t => t.id === form.disputeType)?.label || form.disputeType
+    const l = generateFurnisherLetter({
+      name: form.name, address: form.address, city: form.city, state: form.state, zip: form.zip,
+      furnisherName: form.furnisherName, furnisherAddress: form.furnisherAddress,
+      accountNumber: form.accountNumber, bureauName: bureau.name, disputeType: typeLabel, reason: form.reason
+    })
+    setLetter(l)
+  }
+
+  function copyLetter() {
+    navigator.clipboard.writeText(letter)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
+  function downloadTxt() {
+    const blob = new Blob([letter], { type: 'text/plain' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `dispute-letter-${Date.now()}.txt`
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
+  const inputStyle = {
+    width: '100%', padding: '0.75rem 1rem', background: 'transparent',
+    border: '1px solid var(--cr-border)', borderRadius: '0.375rem',
+    color: '#fff', fontSize: '0.9375rem'
+  }
+
+  return (
+    <div className="min-h-screen" style={{backgroundColor: '#111111', color: '#ffffff'}}>
+      {/* Nav */}
+      <nav className="sticky top-0 z-50 backdrop-blur-md" style={{backgroundColor: 'rgba(17,17,17,0.9)', borderBottom: '1px solid var(--cr-border)'}}>
+        <div className="cr-container py-4 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2">
+            <Shield size={18} className="text-[#C65D1E]" />
+            <span className="font-semibold text-sm tracking-tight">CreditKlimb<span className="text-[#C65D1E]">™</span></span>
+          </Link>
+          <div className="flex items-center gap-6">
+            <Link href="/dispute" className="text-sm opacity-100 font-medium">Dispute</Link>
+            <Link href="/network" className="text-sm opacity-50">Network</Link>
+            <Link href="/tools" className="text-sm opacity-50">Tools</Link>
           </div>
         </div>
-      </section>
+      </nav>
 
-      {/* Hero */}
-      <section className="py-12 bg-gradient-to-r from-cr-primary to-blue-700 text-white">
-        <div className="cr-container text-center">
-          <FileText className="mx-auto mb-4" size={48} />
-          <h1 className="text-4xl font-bold mb-4">Full Credit Dispute System</h1>
-          <p className="text-xl opacity-90 max-w-2xl mx-auto">
-            Bureau disputes, furnisher notices, sub-bureau coverage, and mail service.
-            Everything you need to fix your credit — all in one place.
-          </p>
+      <div className="cr-container py-12 max-w-2xl">
+        {/* Header */}
+        <div className="mb-10">
+          <p className="text-xs uppercase tracking-widest opacity-40 mb-3">Free Dispute Letters</p>
+          <h1 className="text-3xl font-bold tracking-tight mb-3">Every bureau. Free.</h1>
+          <p className="text-sm opacity-50">Major bureaus, sub-bureaus, and furnisher notices. No paywall. No catch.</p>
         </div>
-      </section>
 
-      {/* What We Cover */}
-      <section className="py-16">
-        <div className="cr-container">
-          <h2 className="text-2xl font-bold text-center mb-4">What We Cover</h2>
-          <p className="text-cr-muted text-center mb-12 max-w-2xl mx-auto">
-            Most credit repair only touches the big 3 bureaus. We go further.
-          </p>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            
-            {/* Major Bureaus */}
-            <div className="cr-card">
-              <div className="w-12 h-12 rounded-full bg-cr-primary/10 flex items-center justify-center mb-4">
-                <CreditCard className="text-cr-primary" size={24} />
-              </div>
-              <h3 className="text-lg font-bold mb-2">Major Bureaus</h3>
-              <p className="text-cr-muted text-sm mb-4">
-                Equifax, Experian, and TransUnion — the big 3 that affect your credit score.
-              </p>
-              <ul className="space-y-2 text-sm">
-                {BUREAUS.map(b => (
-                  <li key={b.id} className="flex items-center gap-2">
-                    <CheckCircle className="text-green-500 flex-shrink-0" size={16} />
-                    <span>{b.name}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Sub-Bureaus */}
-            <div className="cr-card">
-              <div className="w-12 h-12 rounded-full bg-cr-primary/10 flex items-center justify-center mb-4">
-                <AlertTriangle className="text-cr-primary" size={24} />
-              </div>
-              <h3 className="text-lg font-bold mb-2">Sub-Bureaus</h3>
-              <p className="text-cr-muted text-sm mb-4">
-                The hidden bureaus that landlords, employers, and insurers check.
-              </p>
-              <ul className="space-y-2 text-sm">
-                {SUB_BUREAUS.slice(0, 5).map(b => (
-                  <li key={b.id} className="flex items-center gap-2">
-                    <CheckCircle className="text-green-500 flex-shrink-0" size={16} />
-                    <span>{b.name}</span>
-                  </li>
-                ))}
-                <li className="text-cr-muted">
-                  + {SUB_BUREAUS.length - 5} more sub-bureaus
-                </li>
-              </ul>
-            </div>
-
-            {/* Furnishers */}
-            <div className="cr-card">
-              <div className="w-12 h-12 rounded-full bg-cr-primary/10 flex items-center justify-center mb-4">
-                <Building className="text-cr-primary" size={24} />
-              </div>
-              <h3 className="text-lg font-bold mb-2">Furnishers</h3>
-              <p className="text-cr-muted text-sm mb-4">
-                The banks and lenders who report to bureaus — and are legally required to fix errors.
-              </p>
-              <ul className="space-y-2 text-sm">
-                {FURNISHER_CATEGORIES.slice(0, 4).map(f => (
-                  <li key={f.id} className="flex items-center gap-2">
-                    <CheckCircle className="text-green-500 flex-shrink-0" size={16} />
-                    <span>{f.name}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Pricing */}
-      <section className="py-16 bg-cr-surface">
-        <div className="cr-container">
-          <h2 className="text-2xl font-bold text-center mb-4">Choose Your Level</h2>
-          <p className="text-cr-muted text-center mb-12 max-w-2xl mx-auto">
-            Start for $1. Upgrade when you're ready. Cancel anytime.
-          </p>
-
-          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {PRICING_TIERS.map((tier) => (
-              <div 
-                key={tier.id} 
-                className={`cr-card relative ${tier.popular ? 'border-cr-primary' : ''}`}
+        {/* Menu */}
+        {step === 'menu' && (
+          <div className="space-y-3">
+            {[
+              { icon: CreditCard, label: 'Major Bureau Dispute', desc: 'Equifax · Experian · TransUnion', sub: 'Free letter for any credit error', key: 'bureau' as const },
+              { icon: AlertTriangle, label: 'Sub-Bureau Dispute', desc: 'LexisNexis · ChexSystems · FactorTrust', sub: 'The hidden reports landlords and employers check', key: 'sub' as const },
+              { icon: Building, label: 'Furnisher Notice', desc: 'Banks · Collections · Medical', sub: 'Put legal pressure directly on the source', key: 'furnisher' as const },
+            ].map((item, i) => (
+              <button
+                key={i}
+                onClick={() => setStep(item.key)}
+                className="w-full text-left p-6 border transition-all hover:border-[#C65D1E] flex items-start gap-4"
+                style={{borderColor: 'var(--cr-border)', background: 'transparent'}}
               >
-                {tier.popular && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-cr-primary text-white text-sm font-medium rounded-full">
-                    Most Popular
-                  </div>
-                )}
-                <div className="text-center mb-6">
-                  <h3 className="text-lg font-bold">{tier.name}</h3>
-                  <div className="text-4xl font-bold mt-2">
-                    ${tier.price}
-                    {tier.price > 1 && <span className="text-lg font-normal text-cr-muted"> one-time</span>}
-                  </div>
-                  <p className="text-cr-muted text-sm mt-2">{tier.description}</p>
+                <div className="w-10 h-10 rounded-lg border flex items-center justify-center flex-shrink-0 mt-0.5" style={{borderColor: 'var(--cr-border)'}}>
+                  <item.icon size={18} className="opacity-60" />
                 </div>
-                <ul className="space-y-3 mb-6">
-                  {tier.features.map((feature, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm">
-                      <CheckCircle className="text-green-500 flex-shrink-0 mt-0.5" size={16} />
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
+                <div>
+                  <div className="font-semibold text-sm mb-1">{item.label}</div>
+                  <div className="text-xs opacity-40 mb-0.5">{item.desc}</div>
+                  <div className="text-xs text-[#C65D1E]">{item.sub}</div>
+                </div>
+                <ArrowRight size={16} className="ml-auto opacity-30 flex-shrink-0 mt-1" />
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* Bureau Form */}
+        {step === 'bureau' && (
+          <div className="space-y-5">
+            <button onClick={() => setStep('menu')} className="text-xs opacity-40 hover:opacity-100 transition-opacity">
+              ← Back
+            </button>
+
+            <div className="grid grid-cols-3 gap-3">
+              {bureaus.map(b => (
                 <button
-                  onClick={() => {
-                    const base = window.location.origin
-                    fetch('/api/stripe/checkout', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({
-                        tier: tier.id,
-                        successUrl: `${base}/dispute/${tier.id}/success`,
-                        cancelUrl: `${base}/dispute`,
-                      })
-                    }).then(r => r.json()).then(d => {
-                      if (d.url) window.location.href = d.url
-                      else alert('Payment not configured yet — check back soon!')
-                    }).catch(() => alert('Payment not configured yet!'))
+                  key={b.id}
+                  onClick={() => setForm(f => ({...f, bureauId: b.id}))}
+                  className="p-4 border text-center text-sm transition-all"
+                  style={{
+                    borderColor: form.bureauId === b.id ? '#C65D1E' : 'var(--cr-border)',
+                    background: form.bureauId === b.id ? 'rgba(198,93,30,0.1)' : 'transparent'
                   }}
-                  className={`w-full text-center py-3 rounded-lg font-medium transition-colors ${
-                    tier.popular 
-                      ? 'bg-cr-primary text-white hover:bg-cr-primary/90' 
-                      : 'bg-cr-surface border border-cr-border hover:border-cr-primary'
-                  }`}
                 >
-                  {tier.price === 1 ? 'Get Started — $1' : tier.price === 29 ? 'Get Full System — $29' : 'We Handle It — $49'}
+                  {b.name}
+                </button>
+              ))}
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              {DISPUTE_TYPES.map(t => (
+                <button
+                  key={t.id}
+                  onClick={() => setForm(f => ({...f, disputeType: t.id}))}
+                  className="p-3 border text-left text-sm transition-all"
+                  style={{
+                    borderColor: form.disputeType === t.id ? '#C65D1E' : 'var(--cr-border)',
+                    background: form.disputeType === t.id ? 'rgba(198,93,30,0.1)' : 'transparent'
+                  }}
+                >
+                  <div className="font-medium text-xs">{t.label}</div>
+                  <div className="text-xs opacity-40">{t.desc}</div>
+                </button>
+              ))}
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <input placeholder="Full Name" value={form.name} onChange={e => setForm(f => ({...f, name: e.target.value}))} style={inputStyle} />
+              <input placeholder="Account Number" value={form.accountNumber} onChange={e => setForm(f => ({...f, accountNumber: e.target.value}))} style={inputStyle} />
+            </div>
+            <input placeholder="Street Address" value={form.address} onChange={e => setForm(f => ({...f, address: e.target.value}))} style={inputStyle} />
+            <div className="grid grid-cols-3 gap-3">
+              <input placeholder="City" value={form.city} onChange={e => setForm(f => ({...f, city: e.target.value}))} style={inputStyle} />
+              <input placeholder="State" value={form.state} onChange={e => setForm(f => ({...f, state: e.target.value}))} style={inputStyle} />
+              <input placeholder="ZIP" value={form.zip} onChange={e => setForm(f => ({...f, zip: e.target.value}))} style={inputStyle} />
+            </div>
+            <textarea
+              placeholder="Why is this information inaccurate? (e.g. 'Payment was made on time but reported late', 'Never authorized this account')"
+              value={form.reason}
+              onChange={e => setForm(f => ({...f, reason: e.target.value}))}
+              rows={3}
+              style={{...inputStyle, resize: 'vertical', minHeight: '80px'}}
+            />
+            <button
+              onClick={buildBureauLetter}
+              disabled={!form.name || !form.address || !form.city || !form.state || !form.zip || !form.accountNumber}
+              className="w-full py-3 text-sm font-medium border transition-all disabled:opacity-30"
+              style={{borderColor: 'var(--cr-border)', background: form.name && form.address ? '#C65D1E' : 'transparent', color: form.name && form.address ? '#fff' : '#888'}}
+            >
+              Generate Letter
+            </button>
+          </div>
+        )}
+
+        {/* Sub-Bureau Form */}
+        {step === 'sub' && (
+          <div className="space-y-5">
+            <button onClick={() => setStep('menu')} className="text-xs opacity-40 hover:opacity-100 transition-opacity">
+              ← Back
+            </button>
+
+            <div className="grid grid-cols-2 gap-3">
+              {subBureaus.map(b => (
+                <button
+                  key={b.id}
+                  onClick={() => setForm(f => ({...f, subBureauId: b.id}))}
+                  className="p-4 border text-left text-sm transition-all"
+                  style={{
+                    borderColor: form.subBureauId === b.id ? '#C65D1E' : 'var(--cr-border)',
+                    background: form.subBureauId === b.id ? 'rgba(198,93,30,0.1)' : 'transparent'
+                  }}
+                >
+                  <div className="font-medium text-xs">{b.name}</div>
+                  <div className="text-xs opacity-40">{b.description}</div>
+                </button>
+              ))}
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <input placeholder="Full Name" value={form.name} onChange={e => setForm(f => ({...f, name: e.target.value}))} style={inputStyle} />
+              <input placeholder="Account Number" value={form.accountNumber} onChange={e => setForm(f => ({...f, accountNumber: e.target.value}))} style={inputStyle} />
+            </div>
+            <input placeholder="Street Address" value={form.address} onChange={e => setForm(f => ({...f, address: e.target.value}))} style={inputStyle} />
+            <div className="grid grid-cols-3 gap-3">
+              <input placeholder="City" value={form.city} onChange={e => setForm(f => ({...f, city: e.target.value}))} style={inputStyle} />
+              <input placeholder="State" value={form.state} onChange={e => setForm(f => ({...f, state: e.target.value}))} style={inputStyle} />
+              <input placeholder="ZIP" value={form.zip} onChange={e => setForm(f => ({...f, zip: e.target.value}))} style={inputStyle} />
+            </div>
+            <button
+              onClick={buildSubBureauLetter}
+              disabled={!form.name || !form.address || !form.city || !form.state || !form.zip || !form.accountNumber}
+              className="w-full py-3 text-sm font-medium border transition-all disabled:opacity-30"
+              style={{borderColor: 'var(--cr-border)', background: form.name && form.address ? '#C65D1E' : 'transparent', color: form.name && form.address ? '#fff' : '#888'}}
+            >
+              Generate Letter
+            </button>
+          </div>
+        )}
+
+        {/* Furnisher Form */}
+        {step === 'furnisher' && (
+          <div className="space-y-5">
+            <button onClick={() => setStep('menu')} className="text-xs opacity-40 hover:opacity-100 transition-opacity">
+              ← Back
+            </button>
+
+            <div className="grid grid-cols-2 gap-3">
+              {FURNISHER_CATEGORIES.map(f => (
+                <button
+                  key={f.id}
+                  onClick={() => setForm(f => ({...f, furnisherName: f.name}))}
+                  className="p-4 border text-left text-sm transition-all"
+                  style={{
+                    borderColor: form.furnisherName === f.name ? '#C65D1E' : 'var(--cr-border)',
+                    background: form.furnisherName === f.name ? 'rgba(198,93,30,0.1)' : 'transparent'
+                  }}
+                >
+                  <div className="font-medium text-xs">{f.name}</div>
+                  <div className="text-xs opacity-40">{f.examples}</div>
+                </button>
+              ))}
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <input placeholder="Full Name" value={form.name} onChange={e => setForm(f => ({...f, name: e.target.value}))} style={inputStyle} />
+              <input placeholder="Account Number" value={form.accountNumber} onChange={e => setForm(f => ({...f, accountNumber: e.target.value}))} style={inputStyle} />
+            </div>
+            <input placeholder="Furnisher Address (P.O. Box or street)" value={form.furnisherAddress} onChange={e => setForm(f => ({...f, furnisherAddress: e.target.value}))} style={inputStyle} />
+            <div className="grid grid-cols-3 gap-3">
+              <input placeholder="City" value={form.city} onChange={e => setForm(f => ({...f, city: e.target.value}))} style={inputStyle} />
+              <input placeholder="State" value={form.state} onChange={e => setForm(f => ({...f, state: e.target.value}))} style={inputStyle} />
+              <input placeholder="ZIP" value={form.zip} onChange={e => setForm(f => ({...f, zip: e.target.value}))} style={inputStyle} />
+            </div>
+            <button
+              onClick={buildFurnisherLetter}
+              disabled={!form.name || !form.furnisherName || !form.furnisherAddress || !form.city || !form.state || !form.zip}
+              className="w-full py-3 text-sm font-medium border transition-all disabled:opacity-30"
+              style={{borderColor: 'var(--cr-border)', background: form.name && form.furnisherName && form.furnisherAddress ? '#C65D1E' : 'transparent', color: form.name && form.furnisherName && form.furnisherAddress ? '#fff' : '#888'}}
+            >
+              Generate Furnisher Notice
+            </button>
+          </div>
+        )}
+
+        {/* Letter Output */}
+        {letter && (
+          <div className="mt-8">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <CheckCircle size={16} className="text-[#C65D1E]" />
+                <span className="text-sm font-medium">Your Letter</span>
+              </div>
+              <div className="flex gap-3">
+                <button onClick={copyLetter} className="text-xs px-3 py-1.5 border" style={{borderColor: 'var(--cr-border)'}}>
+                  {copied ? 'Copied!' : <><Copy size={12} className="inline mr-1" />Copy</>}
+                </button>
+                <button onClick={downloadTxt} className="text-xs px-3 py-1.5 border" style={{borderColor: 'var(--cr-border)'}}>
+                  <Download size={12} className="inline mr-1" />Download .txt
                 </button>
               </div>
-            ))}
+            </div>
+            <pre style={{whiteSpace: 'pre-wrap', wordBreak: 'break-word', fontSize: '0.8125rem', lineHeight: 1.7, opacity: 0.85}}>{letter}</pre>
           </div>
-        </div>
-      </section>
+        )}
 
-      {/* How Furnisher Notices Work */}
-      <section className="py-16">
-        <div className="cr-container max-w-3xl">
-          <h2 className="text-2xl font-bold text-center mb-8">Why Furnisher Notices Matter</h2>
-          <div className="cr-card">
-            <div className="space-y-6">
-              <p className="text-cr-muted">
-                When you dispute with a bureau, the bureau sends your dispute to the furnisher (the bank, lender, or collection agency). 
-                Under the FCRA, furnishers have <strong>30 days</strong> to investigate and correct errors.
-              </p>
-              <p className="text-cr-muted">
-                Most people stop at the bureau. That's a mistake — because if the furnisher doesn't respond, 
-                the bureau has to remove the item by law. Our furnisher notices put legal pressure directly on the source.
-              </p>
-              <div className="tint-primary-10 border border-cr-primary/20 rounded-lg p-4">
-                <h3 className="font-semibold mb-2">The 30-Day Clock</h3>
-                <p className="text-cr-muted text-sm">
-                  We send bureau disputes AND furnisher notices simultaneously. If the furnisher doesn't respond within 30 days, 
-                  we send a 60-day escalation notice — and if they still don't respond, we send a cease-and-desist with FCRA liability warnings.
-                </p>
-              </div>
+        {/* FAQ */}
+        {step === 'menu' && (
+          <div className="mt-16">
+            <h2 className="text-lg font-semibold mb-6">Common Questions</h2>
+            <div className="space-y-2">
+              {faqs.map((faq, i) => (
+                <div key={i} className="border" style={{borderColor: 'var(--cr-border)'}}>
+                  <button
+                    className="w-full text-left p-4 flex items-center justify-between text-sm"
+                    onClick={() => setExpandedFaq(expandedFaq === i ? null : i)}
+                  >
+                    <span className="font-medium">{faq.q}</span>
+                    {expandedFaq === i ? <ChevronUp size={14} className="opacity-50 flex-shrink-0" /> : <ChevronDown size={14} className="opacity-50 flex-shrink-0" />}
+                  </button>
+                  {expandedFaq === i && (
+                    <div className="px-4 pb-4 text-sm opacity-60" style={{paddingTop: 0}}>{faq.a}</div>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
-        </div>
-      </section>
+        )}
 
-      {/* FAQ */}
-      <section className="py-16 bg-cr-surface">
-        <div className="cr-container max-w-3xl">
-          <h2 className="text-2xl font-bold text-center mb-8">Common Questions</h2>
-          <div className="space-y-4">
-            {ARR_0.map((faq, i) => (
-              <div key={i} className="cr-card">
-                <h3 className="font-semibold mb-2">{faq.q}</h3>
-                <p className="text-cr-muted">{faq.a}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-16 bg-gradient-to-r from-cr-primary to-blue-700 text-white">
-        <div className="cr-container text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to Fix Your Credit?</h2>
-          <p className="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
-            Start for $1 or get the full system for $29. Your first letter could make the difference.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/dispute/starter" className="px-8 py-3 bg-white text-cr-primary font-bold rounded-lg hover:bg-gray-100 transition-colors">
-              Start for $1
-            </Link>
-            <Link href="/dispute/full" className="px-8 py-3 bg-cr-primary/20 text-white font-bold rounded-lg hover:bg-cr-primary/30 transition-colors">
-              Full System — $29
+        {/* Network CTA */}
+        {step === 'menu' && (
+          <div className="mt-12 border p-8 text-center" style={{borderColor: 'var(--cr-border)'}}>
+            <p className="text-xs uppercase tracking-widest opacity-40 mb-3">LikenessVerified Network</p>
+            <h3 className="font-semibold text-sm mb-2">Want to offer this under your own brand?</h3>
+            <p className="text-xs opacity-40 mb-4">White-label the tools. Earn commission. Join the network.</p>
+            <Link href="/network" className="cr-btn cr-btn-primary text-xs px-6 py-2">
+              Join the Network
+              <ArrowRight size={12} />
             </Link>
           </div>
-        </div>
-      </section>
+        )}
+      </div>
     </div>
   )
 }
