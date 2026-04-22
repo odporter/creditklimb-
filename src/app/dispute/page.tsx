@@ -175,7 +175,7 @@ export default function DisputePage() {
     { q: 'Is this really free?', a: 'Yes. Every letter. Every bureau. No credit card. No subscription. No "unlock premium." We built it free because the people who need it most often can least afford to pay.' },
     { q: 'Why do I need to dispute with sub-bureaus too?', a: 'Most people only check the big 3 bureaus (Equifax, Experian, TransUnion). But landlords, employers, insurers, and banks also check LexisNexis, ChexSystems, and others. Negative items on sub-bureaus can block housing, jobs, and loans even when your credit score looks fine.' },
     { q: 'What\'s a furnisher notice?', a: 'A furnisher is the bank, lender, or collection agency that reported the information to the credit bureau. Under the FCRA, when you dispute with a bureau, the bureau forwards your dispute to the furnisher — but sending a furnisher notice directly puts legal pressure on the source. If they don\'t respond within 30 days, they\'re in violation of the FCRA.' },
-    { q: 'Do I need to be verified to use this?', a: 'No. CreditKlimb is free for everyone, regardless of identity verification status. But if you join the LikenessVerified network, you get access to white-label tools, commission on referrals, and the full ecosystem. That\'s optional.' },
+    { q: 'Do I need to claim my likeness to use this?', a: 'No. CreditKlimb is free for everyone. Claiming your likeness through LikenessVerified is optional — it\'s for people who want to join the network, white-label the tools, and earn commission. The tools work fine without it.' },
   ]
 
   function buildBureauLetter() {

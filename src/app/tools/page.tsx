@@ -61,7 +61,7 @@ export default function ToolsPage() {
         <div className="mt-12 border p-8 text-center" style={{borderColor: 'var(--cr-border)'}}>
           <p className="text-xs uppercase tracking-widest opacity-40 mb-3">LikenessVerified Network</p>
           <h3 className="font-semibold text-sm mb-2">Want to offer these tools under your own brand?</h3>
-          <p className="text-xs opacity-40 mb-4">White-label. Commission. One verified identity.</p>
+          <p className="text-xs opacity-40 mb-4">White-label. Commission. One likeness claim.</p>
           <Link href="/network" className="cr-btn cr-btn-primary text-xs px-6 py-2">
             Join the Network
             <ArrowRight size={12} />

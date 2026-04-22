@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Shield, ArrowRight, CheckCircle2, Users, Globe, Network, Zap, Star, Lock } from 'lucide-react'
+import { Shield, ArrowRight, Users, Globe, Network, Zap, Star, Mic, User } from 'lucide-react'
 
 export default function NetworkPage() {
   return (
@@ -32,10 +32,10 @@ export default function NetworkPage() {
             <span className="text-[#C65D1E]">to be in it.</span>
           </h1>
           <p className="cr-subheadline mb-8 max-w-lg mx-auto">
-            CreditKlimb is free for everyone. But verified members of the LikenessVerified network get more — white-label tools, commissions, and a full ecosystem.
+            CreditKlimb is free for everyone. Claim your likeness through LikenessVerified and get white-label tools, commissions, and access to the full ecosystem.
           </p>
           <Link href="https://likenessverified.com" className="cr-btn cr-btn-primary">
-            Verify Your Identity
+            Claim Your Likeness
             <ArrowRight size={14} />
           </Link>
         </div>
@@ -45,7 +45,7 @@ export default function NetworkPage() {
           <p className="text-xs uppercase tracking-widest opacity-40 mb-6">How It Works</p>
           <div className="space-y-4">
             {[
-              { n: '01', title: 'Verify once', desc: 'One identity verification through LikenessVerified. Covers every tool in the ecosystem.' },
+              { n: '01', title: 'Claim your likeness', desc: 'Register your voice and face through LikenessVerified. That claim becomes your key to the whole ecosystem.' },
               { n: '02', title: 'Access everything', desc: 'White-label tools, commission tracking, referral links, and the full product suite.' },
               { n: '03', title: 'Earn from referrals', desc: 'Every user you bring in pays you. Every sale through your link earns commission.' },
               { n: '04', title: 'Build on it', desc: 'Offer CreditKlimb as your own service. Your clients never see the CreditKlimb brand.' },
@@ -69,7 +69,7 @@ export default function NetworkPage() {
               { icon: Globe, title: 'White-Label', desc: 'CreditKlimb under your brand, your domain, your clients' },
               { icon: Network, title: 'Referral Commission', desc: '3–20% on every sale made through your link' },
               { icon: Users, title: 'Sub-Affiliates', desc: 'Build a team. Earn from their sales too.' },
-              { icon: Lock, title: 'Verified Identity', desc: 'One verification. Every ecosystem tool unlocked.' },
+              { icon: Mic, title: 'Likeness Claimed', desc: 'Register your voice and face. One claim unlocks every tool.' },
               { icon: Zap, title: 'Priority Access', desc: 'New tools and features before public release' },
               { icon: Star, title: 'Ecosystem Badge', desc: 'Verified network badge on your profile and referrals' },
             ].map((item, i) => (
@@ -85,11 +85,11 @@ export default function NetworkPage() {
         {/* Ecosystem Products */}
         <div className="mb-16">
           <p className="text-xs uppercase tracking-widest opacity-40 mb-6">The Ecosystem</p>
-          <h2 className="cr-section-title text-xl mb-6">One identity. Seven products.</h2>
+          <h2 className="cr-section-title text-xl mb-6">One likeness. Seven products.</h2>
           <div className="space-y-2">
             {[
               { name: 'CreditKlimb', tag: 'Live', desc: 'Credit repair tools — free for everyone, commission for network' },
-              { name: 'LikenessVerified™', tag: 'Live', desc: 'Biometric identity — the verification layer for the whole ecosystem' },
+              { name: 'LikenessVerified™', tag: 'Live', desc: 'Claim your voice and face. Own your likeness. Get a certificate.' },
               { name: 'Porterful', tag: 'Live', desc: 'Music and commerce platform for artists' },
               { name: 'NLDS', tag: 'Live', desc: 'National Land Data System — real estate leads and deals' },
               { name: 'Overstood™', tag: 'Coming', desc: 'Curiosity app — snap or type anything, get an AI explanation' },
@@ -113,18 +113,18 @@ export default function NetworkPage() {
         <div className="border p-10 text-center" style={{borderColor: 'var(--cr-border)'}}>
           <h2 className="font-semibold text-lg mb-3">Ready to join the network?</h2>
           <p className="text-sm opacity-40 mb-6 max-w-sm mx-auto">
-            Verify your identity once. Access everything. Earn from the ecosystem.
+            Claim your likeness once. Access everything. Earn from the ecosystem.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link href="https://likenessverified.com" className="cr-btn cr-btn-primary">
-              Verify Identity
+              Claim Your Likeness
               <ArrowRight size={14} />
             </Link>
             <Link href="/dispute" className="cr-btn cr-btn-outline">
               Use Free Tools First
             </Link>
           </div>
-          <p className="text-xs opacity-25 mt-6">Verification through LikenessVerified™ — inquiringminds.co</p>
+          <p className="text-xs opacity-25 mt-6">LikenessVerified™ — inquiringminds.co</p>
         </div>
       </div>
     </div>

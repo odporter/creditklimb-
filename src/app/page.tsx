@@ -18,7 +18,7 @@ function HeroSection() {
       <div className="cr-container">
         <div className="flex items-center justify-center gap-2 mb-8">
           <span className="inline-block w-2 h-2 rounded-full bg-[#C65D1E] animate-pulse-dot" />
-          <span className="text-xs tracking-widest opacity-40 uppercase">Powered by LikenessVerified™</span>
+          <span className="text-xs tracking-widest opacity-40 uppercase">Built on the LikenessVerified™ network</span>
         </div>
 
         <h1 className="cr-headline text-center mb-6">
@@ -34,7 +34,7 @@ function HeroSection() {
           <br />
           No paywall. No subscription. No catch.
           <br />
-          Join the LikenessVerified network — it's the only membership that matters.
+          Claim your likeness through LikenessVerified and join the network — it's the only membership that matters.
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
@@ -82,7 +82,7 @@ function TruthSection() {
           <p className="text-sm leading-relaxed opacity-60">
             CreditKlimb breaks that. Every letter. Every bureau. Every sub-bureau. Free.
             <br />
-            And when you're ready to join something bigger — verify your identity through LikenessVerified and step into the network.
+            And when you're ready to join something bigger — claim your likeness through LikenessVerified and step into the network.
           </p>
         </div>
       </div>
@@ -175,15 +175,15 @@ function NetworkSection() {
               is the membership.
             </h2>
             <p className="text-sm opacity-60 leading-relaxed mb-6">
-              CreditKlimb is free for everyone. But the people who verify their identity through LikenessVerified? They're in the network. They can resell it. White-label it. Offer it as a service. Earn from it.
+              CreditKlimb is free for everyone. But the people who claim their likeness through LikenessVerified? They're in the network. They can resell it. White-label it. Offer it as a service. Earn from it.
             </p>
             <ul className="space-y-3 mb-8">
               {[
                 'Resell CreditKlimb tools under your own brand',
                 'White-label for your clients',
                 'Commission on every user you bring in',
-                'Access the full LikenessVerified identity stack',
-                'One verified identity — every Porterful ecosystem tool',
+                'Access the full LikenessVerified tool suite',
+                'Claim your likeness once — access every ecosystem product',
               ].map((item, i) => (
                 <li key={i} className="flex items-center gap-3 text-sm">
                   <CheckCircle2 size={14} className="text-[#C65D1E] flex-shrink-0" />
@@ -211,10 +211,10 @@ function NetworkSection() {
             </div>
             <div className="space-y-1">
               {[
-                { label: 'Verified members', value: 'Growing' },
+                { label: 'Members', value: 'Growing' },
                 { label: 'Products in network', value: '7 active' },
                 { label: 'Your commission', value: '3% – 20%' },
-                { label: 'Identity verification', value: 'Required' },
+                { label: 'Likeness claim', value: 'Required' },
               ].map((stat, i) => (
                 <div key={i} className="flex justify-between items-center py-3 border-b" style={{borderColor: 'var(--cr-border)'}}>
                   <span className="text-sm opacity-40">{stat.label}</span>
@@ -222,7 +222,7 @@ function NetworkSection() {
                 </div>
               ))}
             </div>
-            <p className="text-xs opacity-25 mt-6 text-center">One identity. Every tool. Every network.</p>
+            <p className="text-xs opacity-25 mt-6 text-center">One likeness. Every tool. Every network.</p>
           </div>
         </div>
       </div>
